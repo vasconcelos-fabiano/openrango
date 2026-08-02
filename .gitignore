@@ -8,8 +8,7 @@
 .angular/
 
 # Node modules and dependency files
-/node_modules/
-/package-lock.json
+node_modules/
 /yarn.lock
 
 # Environment files
