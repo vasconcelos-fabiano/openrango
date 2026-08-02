@@ -1,0 +1,9 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    background-color: #f0f8f7;
+    color: #333;
+}

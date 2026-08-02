@@ -1,0 +1,57 @@
+ <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="./assets/imagens/logo.png" alt="Logo OpenRango" />
+      </div>
+      <div class="sidebar-header">
+        <h2>OpenRango</h2>
+        <span class="version">0.01</span>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li class="nav-item">
+            <a href="#/pedidos" class="nav-link">Pedidos</a>
+          </li>
+          <li class="nav-item">
+            <a href="#/precificacao" class="nav-link">Precificação</a>
+          </li>
+           <li class="nav-item">
+            <a href="#/rotulo" class="nav-link">Rótulos</a>
+          </li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <p>Pedidos consolidados: ((Configurar))</p>
+        <p id="datetime">Seg, 12/05/25 14:14</p>
+        <a id="logout" style="color: #fff; font-size: 12px; cursor: pointer; text-decoration: underline;">Sair</a>
+      </div>
+    </aside>
+
+    <main id="main-content" class="main-content">
+      <!-- Conteúdo dinâmico será carregado aqui  -->
+    </main>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { firebaseConfig } from "./js/firebase-config.js";
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+      }
+    });
+
+    document.getElementById("logout")?.addEventListener("click", () => {
+      signOut(auth).then(() => {
+        window.location.href = "index.html";
+      });
+    });
+  </script>
+
+  <script src="./js/router.js"></script>
+  <script src="./js/app.js" defer></script>
