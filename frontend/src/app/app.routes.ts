@@ -5,7 +5,7 @@ import { Home } from './pages/home/home';
 export const routes: Routes = [
   {
     path: '',
-    component: Login,
+    component: Home,
   },
   {
     path: 'login',
