@@ -2,6 +2,12 @@ body {
     margin: 0;
 }
 
+.main-nav {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
 .container {
     width: min(1200px, calc(100% - 64px));
     margin: 0 auto;
