@@ -24,13 +24,18 @@ jobs:
         working-directory: frontend
         run: npm run build -- --configuration production
 
-      - name: Deploy via rsync over SSH
-        uses: burnett01/rsync-deployments@v9
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.7.0
         with:
-          switches: -avzr --delete
-          path: frontend/dist/frontend/browser/
-          remote_path: /home/u835982839/public_html/openrango/
-          remote_host: ${{ secrets.SSH_HOST }}
-          remote_port: ${{ secrets.SSH_PORT }}
-          remote_user: ${{ secrets.SSH_USER }}
-          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add Hostinger host to known_hosts
+        run: |
+          mkdir -p /home/runner/.ssh
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> /home/runner/.ssh/known_hosts
+
+      - name: Deploy via rsync over SSH
+        run: |
+          rsync -avz --delete -e "ssh -p ${{ secrets.SSH_PORT }}" \
+            frontend/dist/frontend/browser/ \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/u835982839/public_html/openrango/
