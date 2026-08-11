@@ -15,7 +15,7 @@ body {
 
 .site-header {
     border-bottom: 1px solid #d7d7db;
-    background: #ffffff;
+    background: #dce8f5;
 }
 
 .site-header .container {
@@ -23,6 +23,23 @@ body {
     justify-content: space-between;
     align-items: center;
     height: 72px;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    background-color: #edf3f9;
+}
+
+#search {
+    border-radius: 6px;
+    width: 350px;
+    margin: 7px;
+}
+
+#search-button {
+    margin-bottom: 7px;
+    margin-top: 7px;
 }
 
 main {
@@ -56,4 +73,10 @@ section {
     max-width: 720px;
     margin: 32px auto;
     line-height: 1.8;
+}
+
+.footer-nav {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
 }
