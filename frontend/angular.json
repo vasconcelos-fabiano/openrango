@@ -18,6 +18,7 @@
           "options": {
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
+            "baseHref": "/dev/",
             "assets": [
               {
                 "glob": "**/*",
@@ -54,6 +55,9 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+           "options": {
+           "servePath": "/dev"
+         },
           "configurations": {
             "production": {
               "buildTarget": "frontend:build:production"
