@@ -22,6 +22,14 @@ jobs:
 
       - name: Build Angular app
         working-directory: frontend
+        run: npm run build -- --configuration production --base-href /dev/
+        
+      - name: Install institutional dependencies
+        working-directory: institutional
+        run: npm ci
+
+      - name: Build institutional site
+        working-directory: institutional
         run: npm run build -- --configuration production
 
       - name: Setup SSH
@@ -34,8 +42,14 @@ jobs:
           mkdir -p /home/runner/.ssh
           ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> /home/runner/.ssh/known_hosts
 
-      - name: Deploy via rsync over SSH
-        run: |
+            - name: Deploy via rsync over SSH
+         run: |
+          # Deploy institutional site to /
+          rsync -avz --delete --exclude='dev/' -e "ssh -p ${{ secrets.SSH_PORT }}" \
+            institutional/dist/institutional/browser/ \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/u835982839/public_html/openrango/
+
+          # Deploy ERP to /dev/
           rsync -avz --delete -e "ssh -p ${{ secrets.SSH_PORT }}" \
             frontend/dist/frontend/browser/ \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/u835982839/public_html/openrango/
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/u835982839/public_html/openrango/dev/
