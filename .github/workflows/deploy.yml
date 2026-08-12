@@ -23,7 +23,7 @@ jobs:
       - name: Build Angular app
         working-directory: frontend
         run: npm run build -- --configuration production --base-href /dev/
-        
+
       - name: Install institutional dependencies
         working-directory: institutional
         run: npm ci
@@ -42,8 +42,8 @@ jobs:
           mkdir -p /home/runner/.ssh
           ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> /home/runner/.ssh/known_hosts
 
-            - name: Deploy via rsync over SSH
-         run: |
+      - name: Deploy via rsync over SSH
+        run: |
           # Deploy institutional site to /
           rsync -avz --delete --exclude='dev/' -e "ssh -p ${{ secrets.SSH_PORT }}" \
             institutional/dist/institutional/browser/ \
