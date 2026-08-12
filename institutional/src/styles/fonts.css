@@ -1,0 +1,84 @@
+/* ==========================================================================
+   Outfit
+   ========================================================================== */
+
+@font-face {
+    font-family: 'Outfit';
+    src: url('/fonts/outfit/Outfit-Thin.woff2') format('woff2');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Outfit';
+    src: url('/fonts/outfit/Outfit-ExtraLight.woff2') format('woff2');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Outfit';
+    src: url('/fonts/outfit/Outfit-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Outfit';
+    src: url('/fonts/outfit/Outfit-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Outfit';
+    src: url('/fonts/outfit/Outfit-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Outfit';
+    src: url('/fonts/outfit/Outfit-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Outfit';
+    src: url('/fonts/outfit/Outfit-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Outfit';
+    src: url('/fonts/outfit/Outfit-ExtraBold.woff2') format('woff2');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Outfit';
+    src: url('/fonts/outfit/Outfit-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+}
+
+/* ==========================================================================
+   Maple Mono
+   ========================================================================== */
+
+@font-face {
+    font-family: 'Maple Mono';
+    src: url('/fonts/maple-mono/MapleMono-VF.woff2') format('woff2');
+    font-weight: 100 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Maple Mono';
+    src: url('/fonts/maple-mono/MapleMono-Italic-VF.woff2') format('woff2');
+    font-weight: 100 900;
+    font-style: italic;
+}
