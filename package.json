@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "or": "concurrently -k \"npm run institutional\" \"npm run frontend\" \"npm run proxy\"",
+    "institutional": "npm --prefix institutional start -- --port 4201",
+    "frontend": "npm --prefix frontend start -- --port 4202",
+    "proxy": "node dev-server.js"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.4",
+    "express": "^5.2.1",
+    "http-proxy-middleware": "^4.2.0"
+  }
+}
