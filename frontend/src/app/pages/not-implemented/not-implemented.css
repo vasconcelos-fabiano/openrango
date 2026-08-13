@@ -1,0 +1,15 @@
+.not-implemented {
+  padding: 40px;
+}
+
+.not-implemented h1 {
+  margin-bottom: 8px;
+}
+
+.not-implemented p {
+  margin-bottom: 32px;
+}
+
+.not-implemented hr {
+  margin: 32px 0;
+}

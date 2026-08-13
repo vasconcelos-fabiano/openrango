@@ -9,19 +9,13 @@ app.use((req, res, next) => {
 });
 
 app.use(
-  '/dev',
   createProxyMiddleware({
-    target: 'http://localhost:4202',
     changeOrigin: true,
-    pathRewrite: (path, req) => '/dev' + path,
-  })
-);
-
-app.use(
-  '/',
-  createProxyMiddleware({
-    target: 'http://localhost:4201',
-    changeOrigin: true,
+    ws: true,
+    router: (req) =>
+      req.url.startsWith('/dev')
+        ? 'http://localhost:4202'
+        : 'http://localhost:4201',
   })
 );
 
