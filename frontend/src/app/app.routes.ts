@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { Login } from './pages/login/login';
 import { MainLayout } from './layouts/main-layout/main-layout';
 import { NotImplemented } from './pages/not-implemented/not-implemented';
+import { Pedidos } from './pages/pedidos/pedidos';
 
 export const routes: Routes = [
   {
@@ -20,7 +21,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'pedidos',
-        component: NotImplemented,
+        component: Pedidos,
       },
       {
         path: 'estoque',
@@ -48,6 +49,10 @@ export const routes: Routes = [
       },
       {
         path: 'afiliados',
+        component: NotImplemented,
+      },
+      {
+        path: 'marketing',
         component: NotImplemented,
       },
        {
