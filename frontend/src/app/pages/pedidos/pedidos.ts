@@ -1,14 +1,15 @@
 import { Component } from "@angular/core";
+import { NotImplemented } from "../not-implemented/not-implemented";
 
 @Component({
   selector: "app-pedidos",
-  imports: [],
+  imports: [NotImplemented],
   templateUrl: "./pedidos.html",
   styleUrl: "./pedidos.css",
 })
 export class Pedidos {
   tipoSelecionado = 'delivery';
   selecionarTipo(tipo: string) {
-    console.log(tipo);
+    this.tipoSelecionado = tipo;
   }
 }

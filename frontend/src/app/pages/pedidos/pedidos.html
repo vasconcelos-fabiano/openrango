@@ -1,8 +1,10 @@
 <h1>Pedidos</h1>
 <div class="pedidos-container">
     <div class="pedidos-esquerda">
-        <button class="btn-novo" type="button">Novo Pedido</button>
-        <button class="btn-consolidar" type="button">Consolidar</button>
+        <div class="acoes-pedido">
+            <button class="btn-novo" type="button">Novo Pedido</button>
+            <button class="btn-consolidar" type="button">Consolidar</button>
+        </div>
 
         <div class="tipo-pedido">
             <label>
@@ -14,6 +16,9 @@
                 <input type="radio" name="tipo-pedido" value="delivery" checked (change)="selecionarTipo('delivery')">
                 Delivery
             </label>
+            @if (tipoSelecionado === 'salao') {
+            <app-not-implemented></app-not-implemented>
+            }
         </div>
     </div>
 

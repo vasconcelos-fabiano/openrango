@@ -1,10 +1,14 @@
 h1 {
     font-size: 22px;
+    width: 800px;
+    margin: 0 auto;
 }
 
 .pedidos-container {
     display: flex;
+    width: 800px;
     gap: 10px;
+    margin: 0 auto;
 }
 
 .pedidos-esquerda,
@@ -13,11 +17,11 @@ h1 {
     border: 1px solid #999;
     border-radius: 8px;
     padding: 5px;
+    text-align: center;
 }
 
 .btn-novo,
 .btn-consolidar {
-    flex: 1;
     padding: 8px;
     border: none;
     border-radius: 4px;
@@ -33,4 +37,22 @@ h1 {
 .btn-consolidar {
     background: #ffc400;
     color: #333;
+}
+
+.acoes-pedido {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.acoes-pedido button {
+    width: 140px;
+    margin: 10px 0;
+
+}
+
+.tipo-pedido {
+    display: flex;
+    gap: 15px;
+    margin: 10px 0;
 }
