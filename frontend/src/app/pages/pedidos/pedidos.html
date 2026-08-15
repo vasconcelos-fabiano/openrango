@@ -16,10 +16,16 @@
                 <input type="radio" name="tipo-pedido" value="delivery" checked (change)="selecionarTipo('delivery')">
                 Delivery
             </label>
-            @if (tipoSelecionado === 'salao') {
-            <app-not-implemented></app-not-implemented>
-            }
         </div>
+        @if (tipoSelecionado === 'delivery') {
+        <div class="cliente">
+            <label for="cliente">Cliente:</label>
+            <input type="text" id="cliente">
+        </div>
+        }
+        @if (tipoSelecionado === 'salao') {
+        <app-not-implemented></app-not-implemented>
+        }
     </div>
 
     <div class="pedidos-direita">

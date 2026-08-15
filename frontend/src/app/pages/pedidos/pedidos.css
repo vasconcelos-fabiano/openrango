@@ -1,12 +1,17 @@
+:host {
+    display: block;
+    max-width: 774px;
+}
+
 h1 {
     font-size: 22px;
-    width: 800px;
+    width: 750px;
     margin: 0 auto;
 }
 
 .pedidos-container {
     display: flex;
-    width: 800px;
+    width: 750px;
     gap: 10px;
     margin: 0 auto;
 }
@@ -16,8 +21,8 @@ h1 {
     flex: 1;
     border: 1px solid #999;
     border-radius: 8px;
-    padding: 5px;
     text-align: center;
+    padding: 7px;
 }
 
 .btn-novo,
@@ -55,4 +60,35 @@ h1 {
     display: flex;
     gap: 15px;
     margin: 10px 0;
+}
+
+app-not-implemented {
+    font-size: 12px;
+}
+
+.cliente {
+    display: flex;
+    gap: 7px;
+    flex-direction: column;
+    text-align: left;
+}
+
+.tipo-pedido input[type="radio"] {
+    margin-left: 0;
+}
+
+.cliente input {
+    padding: 7px;
+    border-radius: 8px;
+}
+
+@media (max-width: 440px) {
+    .pedidos-container {
+        flex-direction: column;
+        width: 345px;
+    }
+
+    h1 {
+        width: 345px;
+    }
 }

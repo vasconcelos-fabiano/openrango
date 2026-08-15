@@ -142,3 +142,60 @@ button {
 .logout-button:hover {
     background: rgba(255, 255, 255, 0.08);
 }
+
+.sidebar-handle {
+    display: none;
+    width: 35px;
+    height: 20px;
+    padding: 0;
+    border: 0;
+    cursor: pointer;
+}
+
+@media (max-width: 440px) {
+    .sidebar-handle {
+        display: block;
+        position: absolute;
+        z-index: 30;
+        top: 5px;
+        left: 5px;
+        background-color: #412d1e;
+        color: #e5d7b6;
+        border: 2px solid #e5d7b6;
+        font-weight: bold;
+        animation: quicarAlca 4s ease infinite;
+    }
+
+    .sidebar {
+        position: absolute;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar.sidebar-aberta {
+        display: flex;
+        transform: translateX(0);
+        position: absolute;
+        z-index: 20;
+    }
+
+    .main-content {
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+}
+
+@keyframes quicarAlca {
+    0%   { transform: translateX(0); }
+
+    6%   { transform: translateX(-18px); }
+    11%  { transform: translateX(10px); }
+    15%  { transform: translateX(-8px); }
+    19%  { transform: translateX(6px); }
+    22%  { transform: translateX(-4px); }
+    25%  { transform: translateX(2px); }
+    28%  { transform: translateX(-1px); }
+    30%  { transform: translateX(0); }
+
+    100% { transform: translateX(0); }
+}

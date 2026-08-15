@@ -1,6 +1,6 @@
 <div class="app-container">
 
-    <aside class="sidebar">
+    <aside class="sidebar" [class.sidebar-aberta]="sidebarAberta">
 
         <div class="sidebar-logo">
             <!-- Logo do OpenRango entra aqui -->
@@ -56,9 +56,10 @@
                 </button>
             </div>
         </div>
-
     </aside>
-
+    <button class="sidebar-handle" (click)="alternarSidebar()">
+        {{ sidebarAberta ? '‹' : '›' }}
+    </button>
     <main class="main-content">
         <router-outlet></router-outlet>
     </main>

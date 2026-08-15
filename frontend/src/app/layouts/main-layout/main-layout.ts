@@ -7,4 +7,9 @@ import { RouterOutlet, RouterLink } from "@angular/router";
   templateUrl: "./main-layout.html",
   styleUrl: "./main-layout.css",
 })
-export class MainLayout {}
+export class MainLayout {
+  sidebarAberta = false;
+  alternarSidebar() {
+  this.sidebarAberta = !this.sidebarAberta;
+}
+}
