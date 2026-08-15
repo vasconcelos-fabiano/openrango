@@ -2,12 +2,16 @@
 
 @import "./styles/fonts.css";
 
+:root {
+    color-scheme: light;
+}
+
 body {
     font-family: "Inter", sans-serif;
     font-size: 16px;
     font-weight: 500;
     line-height: 1.5;
-    background-color: #f0f8f7;
+    background-color: #f5f7f5;
     color: #333;
 }
 
