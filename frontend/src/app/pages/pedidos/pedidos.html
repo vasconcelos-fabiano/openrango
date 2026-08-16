@@ -32,9 +32,15 @@
         </div>
         <div class="desconto">
             <label for="desconto">Desconto:</label>
-            <input type="radio" name="kind" value="cash" checked>R$
-            <input type="radio" name="kind" value="percent">%
+            <div class="tipo-desconto">
+                <input type="radio" name="kind" value="cash" checked>R$
+                <input type="radio" name="kind" value="percent">%
+            </div>
             <input type="number" id="desconto" placeholder="0,00">
+        </div>
+        <div class="motivo-desconto">
+            <label for="motivo-desconto">Motivo:</label>
+            <input type="text" id="motivo-desconto" placeholder="Qual o motivo do desconto?">
         </div>
         }
         @if (tipoSelecionado === 'salao') {

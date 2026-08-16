@@ -3,32 +3,49 @@
     max-width: 774px;
 }
 
-h1 {
-    font-size: 22px;
+/* Estrutura flex */
+.pedidos-container,
+.pedidos-esquerda,
+.pedidos-direita,
+.acoes-pedido,
+.tipo-pedido,
+.cliente,
+.busca-produtos,
+.motivo-desconto,
+.taxa-entrega,
+.desconto,
+.tipo-desconto {
+    display: flex;
+}
+
+/* Estrutura principal */
+h1,
+.pedidos-container {
     width: 750px;
     margin: 0 auto;
 }
 
+h1 {
+    font-size: 22px;
+}
+
 .pedidos-container {
-    display: flex;
-    width: 750px;
     gap: 10px;
-    margin: 0 auto;
     font-size: 17px;
 }
 
 .pedidos-esquerda,
 .pedidos-direita {
     flex: 1;
+    flex-direction: column;
+    gap: 15px;
+    padding: 7px;
     border: 1px solid #999;
     border-radius: 8px;
     text-align: center;
-    padding: 7px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
 }
 
+/* Ações */
 .btn-novo,
 .btn-consolidar {
     padding: 8px;
@@ -48,72 +65,60 @@ h1 {
     color: #333;
 }
 
-.acoes-pedido {
-    display: flex;
-    gap: 20px;
+.acoes-pedido,
+.tipo-pedido {
     justify-content: center;
+}
+
+.acoes-pedido {
+    gap: 20px;
 }
 
 .acoes-pedido button {
     width: 140px;
     margin: 10px 0;
-
 }
 
 .tipo-pedido {
-    display: flex;
     gap: 15px;
     margin: 10px 0;
-    justify-content: center;
 }
 
-app-not-implemented {
-    font-size: 12px;
+/* Campos */
+.cliente,
+.busca-produtos {
+    flex-direction: column;
 }
 
 .cliente,
-.busca-produtos {
-    display: flex;
+.busca-produtos,
+.motivo-desconto {
     gap: 7px;
-    flex-direction: column;
     text-align: left;
-}
-
-.tipo-pedido input[type="radio"] {
-    margin-left: 0;
 }
 
 .cliente input,
 .busca-produtos input,
 .taxa-entrega input,
+.motivo-desconto input,
 .desconto input[type="number"] {
+    width: 100%;
     padding: 7px;
     border-radius: 8px;
     box-sizing: border-box;
-    width: 100%;
 }
 
 .taxa-entrega,
 .desconto {
-    display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: flex-end;
 }
 
 .taxa-entrega label,
 .desconto label {
-    width: 125px;
-    flex-shrink: 0;
+    flex: 0 0 125px;
     white-space: nowrap;
     text-align: left;
-}
-
-@media (max-width: 440px) {
-    .pedidos-container {
-        flex-direction: column;
-        width: 345px;
-    }
 }
 
 .taxa-entrega input[type="number"],
@@ -123,10 +128,28 @@ app-not-implemented {
 }
 
 .taxa-entrega span {
-    margin-left: auto;
-    margin-right: 5px;
+    margin: 0 5px 0 auto;
 }
 
 .desconto input[type="number"] {
     margin-left: auto;
+}
+
+.tipo-desconto {
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+}
+
+/* Componentes auxiliares */
+app-not-implemented {
+    font-size: 12px;
+}
+
+/* Mobile */
+@media (max-width: 440px) {
+    .pedidos-container {
+        flex-direction: column;
+        width: 345px;
+    }
 }
