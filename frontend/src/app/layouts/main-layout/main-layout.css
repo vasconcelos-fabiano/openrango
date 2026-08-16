@@ -54,9 +54,11 @@ a {
     color: #e5d7b6;
 }
 
-.sidebar-header .version {
+.sidebar-header .version, .license {
     font-size: 0.8rem;
     color: #f0f8f7;
+    display: block;
+    margin-bottom: 8px;
 }
 
 .main-nav ul {
@@ -198,4 +200,8 @@ button {
     30%  { transform: translateX(0); }
 
     100% { transform: translateX(0); }
+}
+
+.sidebar-date {
+    margin-bottom: 20px;
 }

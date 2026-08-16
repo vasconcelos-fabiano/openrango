@@ -22,6 +22,20 @@
             <label for="cliente">Cliente:</label>
             <input type="text" id="cliente">
         </div>
+        <div class="busca-produtos">
+            <input type="text" placeholder="Buscar produtos...">
+        </div>
+        <div class="taxa-entrega">
+            <label for="taxa">Taxa de entrega:</label>
+            <span>R$</span>
+            <input type="number" id="taxa" placeholder="0,00">
+        </div>
+        <div class="desconto">
+            <label for="desconto">Desconto:</label>
+            <input type="radio" name="kind" value="cash" checked>R$
+            <input type="radio" name="kind" value="percent">%
+            <input type="number" id="desconto" placeholder="0,00">
+        </div>
         }
         @if (tipoSelecionado === 'salao') {
         <app-not-implemented></app-not-implemented>
