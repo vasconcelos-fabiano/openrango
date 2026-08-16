@@ -2,8 +2,10 @@
 <div class="pedidos-container">
     <div class="pedidos-esquerda">
         <div class="acoes-pedido">
-            <button class="btn-novo" type="button">Novo Pedido</button>
-            <button class="btn-consolidar" type="button">Consolidar</button>
+            <button class="btn-novo" type="button">Novo</button>
+            <button class="btn-efetivar" type="button">Efetivar</button>
+            <button class="btn-clear-order" type="button">Limpar</button>
+            <button class="btn-cancel-order" type="button">Cancelar</button>
         </div>
 
         <div class="tipo-pedido">
@@ -49,11 +51,71 @@
     </div>
 
     <div class="pedidos-direita">
-        kkkkkkkkkkkk
-        kkkkkkkkkkkk
-        kkkkkkkkkkkk
-        kkkkkkkkkkkk
-        kkkkkkkkkkkk
-        kkkkkkkkkkkk
+        <!-- BLOCO 1: Forma de pagamento -->
+        <div class="forma-pagamento">
+            <label for="forma-pagamento">Forma de pagamento:</label>
+
+            <select id="forma-pagamento">
+                <option value="" selected disabled></option>
+                <option value="pix">PIX</option>
+                <option value="credito">Crédito</option>
+                <option value="debito">Débito</option>
+                <option value="cash">Cash</option>
+                <option value="voucher">Voucher</option>
+                <option value="vr-va">VR/VA</option>
+            </select>
+        </div>
+
+        <!-- BLOCO 2: Entrega -->
+        <div class="bloco-entrega">
+
+            <div class="tipo-entrega">
+                <label>Entrega:</label>
+
+                <div class="opcoes-entrega">
+                    <label>
+                        <input type="radio" name="entrega" value="imediata" checked>
+                        Imediata
+                    </label>
+
+                    <label>
+                        <input type="radio" name="entrega" value="agendada">
+                        Agendar
+                    </label>
+                </div>
+            </div>
+            <div class="agendamento">
+                <input type="date" id="data-entrega">
+
+                <div class="hora-entrega">
+                    <input type="number" min="0" max="23" placeholder="HH">
+                    <span>:</span>
+                    <input type="number" min="0" max="59" placeholder="MM">
+                </div>
+            </div>
+        </div>
+
+        <!-- BLOCO 3: Notinha -->
+        <div class="bloco-notinha">
+
+            <div class="notinha">
+                Nota de pedido para simples conferência
+            </div>
+
+            <div class="actions-orders-bottom">
+                <button class="btn-copiar" type="button">Copiar</button>
+                <button class="btn-clear-order" type="button">Limpar</button>
+            </div>
+        </div>
+
+        <!-- BLOCO 4: WhatsApp -->
+        <div class="whatsapp-client">
+            <label for="cell-wp">WhatsApp cliente:</label>
+            <input type="text" id="cell-wp" placeholder="DDD+Telefone">
+            <button class="btn-send-whatsapp" type="button">
+                <i class="fa-brands fa-whatsapp"></i> Enviar
+            </button>
+        </div>
+
     </div>
 </div>
