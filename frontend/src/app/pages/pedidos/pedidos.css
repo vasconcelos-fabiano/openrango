@@ -14,7 +14,14 @@
 .motivo-desconto,
 .taxa-entrega,
 .desconto,
-.tipo-desconto {
+.tipo-desconto,
+.opcoes-entrega,
+.taxa-entrega,
+.tipo-entrega,
+.agendamento,
+.notinha,
+.actions-orders-bottom,
+.whatsapp-client {
     display: flex;
 }
 
@@ -36,22 +43,34 @@ h1 {
 
 .pedidos-esquerda,
 .pedidos-direita {
-    flex: 1;
+    flex: 0 0 370px;
+    width: 370px;
+    box-sizing: border-box;
     flex-direction: column;
-    gap: 15px;
     padding: 7px;
     border: 1px solid #999;
     border-radius: 8px;
     text-align: center;
 }
 
+.pedidos-esquerda {
+    gap: 15px;
+}
+
+.pedidos-direita {
+    gap: 15px;
+}
+
 /* Ações */
 .btn-novo,
-.btn-consolidar {
+.btn-efetivar,
+.btn-cancel-order,
+.btn-clear-order,
+.btn-send-whatsapp,
+.btn-copiar {
     padding: 8px;
     border: none;
     border-radius: 4px;
-    font-weight: 600;
     cursor: pointer;
 }
 
@@ -60,28 +79,69 @@ h1 {
     color: white;
 }
 
-.btn-consolidar {
+.btn-clear-order {
     background: #ffc400;
     color: #333;
 }
 
+.btn-efetivar {
+    background: #28a745;
+    color: #000;
+}
+
+.btn-cancel-order {
+    background: #dc3545;
+    color: #fff;
+}
+
+.btn-copiar {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.btn-send-whatsapp {
+    background-color: #25D366;
+    color: white;
+}
+
 .acoes-pedido,
-.tipo-pedido {
+.tipo-pedido,
+.actions-orders-bottom {
     justify-content: center;
 }
 
+.actions-orders-bottom {
+    gap: 5px;
+}
+
 .acoes-pedido {
-    gap: 20px;
+    gap: 5px;
 }
 
 .acoes-pedido button {
-    width: 140px;
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.actions-orders-bottom button {
+    flex: 1;
+    min-width: 0;
+    font-weight: 600;
+    font-size: 15px;
     margin: 10px 0;
+
 }
 
 .tipo-pedido {
     gap: 15px;
-    margin: 10px 0;
+    margin: 0;
+}
+
+.busca-produtos {
+    flex: 1;
 }
 
 /* Campos */
@@ -101,6 +161,7 @@ h1 {
 .busca-produtos input,
 .taxa-entrega input,
 .motivo-desconto input,
+.whatsapp-client input,
 .desconto input[type="number"] {
     width: 100%;
     padding: 7px;
@@ -144,6 +205,95 @@ h1 {
 /* Componentes auxiliares */
 app-not-implemented {
     font-size: 12px;
+}
+
+#forma-pagamento {
+    width: 100%;
+    padding: 7px;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.forma-pagamento {
+    text-align: left;
+}
+
+.tipo-entrega {
+    gap: 15px;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.opcoes-entrega {
+    gap: 15px;
+}
+
+.agendamento {
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.agendamento input {
+    padding: 7px;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.hora-entrega {
+    display: flex;
+    gap: 7px;
+}
+
+.hora-entrega input {
+    width: 60px;
+}
+
+.notinha {
+    flex: 1;
+    min-height: 0;
+    margin: 5px;
+    border: 1px solid #999;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+}
+
+.bloco-entrega,
+.bloco-notinha {
+    display: flex;
+    flex-direction: column;
+}
+
+.bloco-entrega {
+    gap: 10px;
+}
+
+.bloco-notinha {
+    flex: 1;
+    min-height: 0;
+}
+
+.whatsapp-client {
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+}
+
+.whatsapp-client label {
+    white-space: nowrap;
+}
+
+#cell-wp {
+    width: 13ch;
+    flex-shrink: 0;
+}
+
+.whatsapp-client .btn-send-whatsapp {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 600;
 }
 
 /* Mobile */
