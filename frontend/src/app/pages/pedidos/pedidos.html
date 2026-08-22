@@ -2,47 +2,53 @@
 <div class="pedidos-container">
     <div class="pedidos-esquerda">
         <div class="acoes-pedido">
-            <button class="btn-novo" type="button">Novo</button>
-            <button class="btn-efetivar" type="button">Efetivar</button>
-            <button class="btn-clear-order" type="button">Limpar</button>
-            <button class="btn-cancel-order" type="button">Cancelar</button>
+            <button class="btn-novo" type="button" (click)="startOrder()" [disabled]="orderStarted">Novo</button>
+            <button class="btn-efetivar" type="button" [disabled]="!orderStarted">Efetivar</button>
+            <button class="btn-clear-order" type="button" [disabled]="!orderStarted">Limpar</button>
+            <button class="btn-cancel-order" type="button" [disabled]="!orderStarted"
+                (click)="cancelOrder()">Cancelar</button>
         </div>
 
         <div class="tipo-pedido">
             <label>
-                <input type="radio" name="tipo-pedido" value="salao" (change)="selecionarTipo('salao')">
-                Salão
-            </label>
-
+                <input type="radio" name="tipo-pedido" value="salao" (change)="selecionarTipo('salao')"
+                    [disabled]="!orderStarted">Salão</label>
             <label>
-                <input type="radio" name="tipo-pedido" value="delivery" checked (change)="selecionarTipo('delivery')">
-                Delivery
-            </label>
+                <input type="radio" name="tipo-pedido" value="delivery" checked (change)="selecionarTipo('delivery')"
+                    [disabled]="!orderStarted">Delivery</label>
         </div>
         @if (tipoSelecionado === 'delivery') {
         <div class="cliente">
             <label for="cliente">Cliente:</label>
-            <input type="text" id="cliente">
+            <input type="text" id="cliente" [value]="customerName" (input)="customerName = $any($event.target).value"
+                [disabled]="!orderStarted">
         </div>
         <div class="busca-produtos">
-            <input type="text" placeholder="Buscar produtos...">
+            <input type="text" placeholder="Buscar produtos..." [value]="productSearch"
+                (input)="productSearch = $any($event.target).value" [disabled]="!orderStarted">
         </div>
         <div class="taxa-entrega">
             <label for="taxa">Taxa de entrega:</label>
             <span>R$</span>
-            <input type="number" id="taxa" placeholder="0,00">
+            <input type="number" id="taxa" placeholder="0,00" [value]="deliveryFee ?? ''"
+                (input)="deliveryFee = $any($event.target).valueAsNumber" [disabled]="!orderStarted">
         </div>
         <div class="desconto">
             <label for="desconto">Desconto:</label>
             <div class="tipo-desconto">
-                <input type="radio" name="kind" value="cash" checked>R$
-                <input type="radio" name="kind" value="percent">%
+                <input type="radio" name="kind" value="cash" [checked]="discountType === 'cash'"
+                    (change)="discountType = 'cash'" [disabled]="!orderStarted">R$
+                <input type="radio" name="kind" value="percent" [checked]="discountType === 'percent'"
+                    (change)="discountType = 'percent'" [disabled]="!orderStarted">%
             </div>
-            <input type="number" id="desconto" placeholder="0,00">
+            <input type="number" id="desconto" placeholder="0,00" [value]="discountValue ?? ''"
+                (input)="discountValue = $any($event.target).valueAsNumber" [disabled]="!orderStarted">
         </div>
         <div class="motivo-desconto">
             <label for="motivo-desconto">Motivo:</label>
-            <input type="text" id="motivo-desconto" placeholder="Qual o motivo do desconto?">
+            <input type="text" id="motivo-desconto" [value]="reasonDiscount"
+                (input)="reasonDiscount = $any($event.target).value" placeholder="Qual o motivo do desconto?"
+                [disabled]="!orderStarted">
         </div>
         }
         @if (tipoSelecionado === 'salao') {
@@ -55,8 +61,9 @@
         <div class="forma-pagamento">
             <label for="forma-pagamento">Forma de pagamento:</label>
 
-            <select id="forma-pagamento">
-                <option value="" selected disabled></option>
+            <select id="forma-pagamento" [value]="paymentType" (change)="paymentType = $any($event.target).value"
+                [disabled]="!orderStarted">
+                <option value="" disabled></option>
                 <option value="pix">PIX</option>
                 <option value="credito">Crédito</option>
                 <option value="debito">Débito</option>
@@ -74,23 +81,28 @@
 
                 <div class="opcoes-entrega">
                     <label>
-                        <input type="radio" name="entrega" value="imediata" checked>
+                        <input type="radio" name="entrega" value="immediate" [checked]="deliveryType === 'immediate'"
+                            (change)="deliveryType = 'immediate'" [disabled]="!orderStarted">
                         Imediata
                     </label>
 
                     <label>
-                        <input type="radio" name="entrega" value="agendada">
+                        <input type="radio" name="entrega" value="scheduled" [checked]="deliveryType === 'scheduled'"
+                            (change)="deliveryType = 'scheduled'" [disabled]="!orderStarted">
                         Agendar
                     </label>
                 </div>
             </div>
             <div class="agendamento">
-                <input type="date" id="data-entrega">
+                <input type="date" id="data-entrega" [value]="deliveryDate"
+                    (change)="deliveryDate = $any($event.target).value" [disabled]="!orderStarted">
 
                 <div class="hora-entrega">
-                    <input type="number" min="0" max="23" placeholder="HH">
+                    <input type="number" min="0" max="23" placeholder="HH" [value]="deliveryHour ?? ''"
+                        (input)="deliveryHour = $any($event.target).valueAsNumber" [disabled]="!orderStarted">
                     <span>:</span>
-                    <input type="number" min="0" max="59" placeholder="MM">
+                    <input type="number" min="0" max="59" placeholder="MM" [value]="deliveryMinute ?? ''"
+                        (input)="deliveryMinute = $any($event.target).valueAsNumber" [disabled]="!orderStarted">
                 </div>
             </div>
         </div>
@@ -99,23 +111,44 @@
         <div class="bloco-notinha">
 
             <div class="notinha">
+                @if (orderNote) {
+                {{ orderNote }}
+                } @else {
                 Nota de pedido para simples conferência
+                }
             </div>
 
             <div class="actions-orders-bottom">
-                <button class="btn-copiar" type="button">Copiar</button>
-                <button class="btn-clear-order" type="button">Limpar</button>
+                <button class="btn-copiar" type="button" [disabled]="!orderStarted">Copiar</button>
+                <button class="btn-clear-order" type="button" [disabled]="!orderStarted">Limpar</button>
             </div>
         </div>
 
         <!-- BLOCO 4: WhatsApp -->
         <div class="whatsapp-client">
             <label for="cell-wp">WhatsApp cliente:</label>
-            <input type="text" id="cell-wp" placeholder="DDD+Telefone">
-            <button class="btn-send-whatsapp" type="button">
+            <input type="text" id="cell-wp" placeholder="DDD+Telefone" [value]="customerPhone"
+                (input)="customerPhone = $any($event.target).value" [disabled]="!orderStarted">
+            <button class="btn-send-whatsapp" type="button" [disabled]="!orderStarted">
                 <i class="fa-brands fa-whatsapp"></i> Enviar
             </button>
         </div>
 
     </div>
 </div>
+
+@if (showCancelDialog) {
+<div class="dialog-overlay">
+    <div class="cancel-dialog">
+        <p>
+            Tem certeza que deseja cancelar o pedido em andamento?
+            Os dados desse pedido serão perdidos se você clicar em Sim.
+        </p>
+
+        <div class="dialog-actions">
+            <button type="button" (click)="confirmCancelOrder()">Sim</button>
+            <button type="button" (click)="closeCancelDialog()">Voltar</button>
+        </div>
+    </div>
+</div>
+}
