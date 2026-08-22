@@ -1,8 +1,8 @@
 {
   "scripts": {
     "or": "concurrently -k \"npm run institutional\" \"npm run frontend\" \"npm run proxy\"",
-    "institutional": "npm --prefix institutional start -- --port 4201",
-    "frontend": "npm --prefix frontend start -- --port 4202",
+    "institutional": "npm --prefix institutional start -- --host 0.0.0.0 --allowed-hosts --port 4201",
+    "frontend": "npm --prefix frontend start -- --host 0.0.0.0 --allowed-hosts --port 4202",
     "proxy": "node dev-server.js"
   },
   "devDependencies": {
