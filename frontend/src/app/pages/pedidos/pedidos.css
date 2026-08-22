@@ -329,4 +329,8 @@ app-not-implemented {
         font-size: 17px;
         font-weight: 700;
     }
+
+    .desconto>label {
+        flex: 0 0 auto;
+    }
 }
