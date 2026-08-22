@@ -104,6 +104,11 @@ h1 {
     color: white;
 }
 
+button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
 .acoes-pedido,
 .tipo-pedido,
 .actions-orders-bottom {
@@ -294,6 +299,31 @@ app-not-implemented {
     flex: 1;
     font-size: 15px;
     font-weight: 600;
+}
+
+.dialog-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+}
+
+.cancel-dialog {
+    width: 400px;
+    padding: 20px;
+    background: white;
+    border: 1px solid #999;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
 }
 
 /* Mobile */
