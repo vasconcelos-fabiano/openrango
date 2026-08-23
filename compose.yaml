@@ -12,6 +12,17 @@ services:
     volumes:
       - openrango_mysql_data:/var/lib/mysql
 
+  backend:
+    build: ./backend
+    container_name: openrango-backend
+    working_dir: /app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - mysql
+
   frontend:
     build: .
     container_name: openrango-frontend
