@@ -4,7 +4,6 @@
         <div class="acoes-pedido">
             <button class="btn-novo" type="button" (click)="startOrder()" [disabled]="orderStarted">Novo</button>
             <button class="btn-efetivar" type="button" [disabled]="!orderStarted">Efetivar</button>
-            <button class="btn-clear-order" type="button" [disabled]="!orderStarted">Limpar</button>
             <button class="btn-cancel-order" type="button" [disabled]="!orderStarted"
                 (click)="cancelOrder()">Cancelar</button>
         </div>
@@ -20,8 +19,8 @@
         @if (tipoSelecionado === 'delivery') {
         <div class="cliente">
             <label for="cliente">Cliente:</label>
-            <input type="text" id="cliente" [value]="customerName" (input)="customerName = $any($event.target).value"
-                [disabled]="!orderStarted">
+            <input type="text" id="cliente" placeholder="Busca: nome, telefone ou CPF" [value]="customerName"
+                (input)="customerName = $any($event.target).value" [disabled]="!orderStarted">
         </div>
         <div class="busca-produtos">
             <input type="text" placeholder="Buscar produtos..." [value]="productSearch"
@@ -120,7 +119,9 @@
 
             <div class="actions-orders-bottom">
                 <button class="btn-copiar" type="button" [disabled]="!orderStarted">Copiar</button>
-                <button class="btn-clear-order" type="button" [disabled]="!orderStarted">Limpar</button>
+                <button class="btn-clear-order" type="button" (click)="clearOrderNote()" [disabled]="!orderStarted">
+                    Limpar
+                </button>
             </div>
         </div>
 
