@@ -41,6 +41,10 @@ export class Pedidos {
     this.showCancelDialog = false;
   }
 
+  clearOrderNote() {
+    this.orderNote = '';
+  }
+
   confirmCancelOrder() {
     this.orderStarted = false;
     this.showCancelDialog = false;
