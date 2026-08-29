@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { NotImplemented } from "../not-implemented/not-implemented";
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: "app-pedidos",
@@ -24,6 +25,14 @@ export class Pedidos {
   discountValue: number | null = null;
   deliveryType = 'immediate';
   orderNote = '';
+
+  constructor(private http: HttpClient) { }
+
+  loadProducts() {
+    this.http.get('http://localhost:8000/produtos').subscribe(products => {
+      console.log(products);
+    });
+  }
 
   selecionarTipo(tipo: string) {
     this.tipoSelecionado = tipo;
