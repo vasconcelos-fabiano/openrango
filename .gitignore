@@ -6,6 +6,7 @@ dist/
 /e2e/test-output/
 /.angular/
 .angular/
+__pycache__/
 
 # Node modules and dependency files
 node_modules/
