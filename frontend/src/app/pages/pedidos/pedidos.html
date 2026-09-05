@@ -24,8 +24,27 @@
         </div>
         <div class="busca-produtos">
             <input type="text" placeholder="Buscar produtos..." [value]="productSearch"
-                (input)="productSearch = $any($event.target).value" [disabled]="!orderStarted">
+                (input)="productSearch = $any($event.target).value; filterProducts()" [disabled]="!orderStarted">
+
+            @if (productSearch && filteredProducts.length > 0) {
+            <div class="product-results">
+                @for (product of filteredProducts; track product.id) {
+                <div class="product-option" (click)="selectProduct(product)">
+                    {{ product.nome }}
+                </div>
+                }
+            </div>
+            }
         </div>
+
+        <div class="selected-products">
+            @for (product of selectedProducts; track $index) {
+            <div class="selected-product">
+                {{ product.quantidade.toString().padStart(3, '0') }} {{ product.nome }}
+            </div>
+            }
+        </div>
+
         <div class="taxa-entrega">
             <label for="taxa">Taxa de entrega:</label>
             <span>R$</span>
