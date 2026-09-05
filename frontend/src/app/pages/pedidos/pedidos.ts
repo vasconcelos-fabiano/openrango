@@ -25,13 +25,45 @@ export class Pedidos {
   discountValue: number | null = null;
   deliveryType = 'immediate';
   orderNote = '';
+  products: any[] = [];
+  filteredProducts: any[] = [];
+  selectedProducts: any[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.loadProducts();
+  }
 
   loadProducts() {
     this.http.get('http://localhost:8000/produtos').subscribe(products => {
-      console.log(products);
+      this.products = products as any[];
+      this.filteredProducts = this.products;
     });
+  }
+
+  selectProduct(product: any) {
+    const existingProduct = this.selectedProducts.find(
+      item => item.id === product.id
+    );
+
+    if (existingProduct) {
+      existingProduct.quantidade++;
+    } else {
+      this.selectedProducts.push({
+        ...product,
+        quantidade: 1
+      });
+    }
+
+    this.productSearch = '';
+    this.filteredProducts = [];
+  }
+
+  filterProducts() {
+    const search = this.productSearch.toLowerCase();
+
+    this.filteredProducts = this.products.filter(product =>
+      product.nome.toLowerCase().includes(search)
+    );
   }
 
   selecionarTipo(tipo: string) {
