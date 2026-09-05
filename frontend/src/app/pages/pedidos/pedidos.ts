@@ -58,6 +58,20 @@ export class Pedidos {
     this.filteredProducts = [];
   }
 
+  increaseQuantity(product: any) {
+    product.quantidade++;
+  }
+
+  decreaseQuantity(product: any) {
+    if (product.quantidade > 1) {
+      product.quantidade--;
+    } else {
+      this.selectedProducts = this.selectedProducts.filter(
+        item => item.id !== product.id
+      );
+    }
+  }
+
   filterProducts() {
     const search = this.productSearch.toLowerCase();
 

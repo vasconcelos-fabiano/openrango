@@ -30,7 +30,7 @@
             <div class="product-results">
                 @for (product of filteredProducts; track product.id) {
                 <div class="product-option" (click)="selectProduct(product)">
-                    {{ product.nome }}
+                    {{ product.nome }} {{ product.tamanho }}{{ product.unidade }}
                 </div>
                 }
             </div>
@@ -40,7 +40,16 @@
         <div class="selected-products">
             @for (product of selectedProducts; track $index) {
             <div class="selected-product">
-                {{ product.quantidade.toString().padStart(3, '0') }} {{ product.nome }}
+                <span>
+                    <strong>{{ product.quantidade.toString().padStart(3, '0') }}</strong> {{ product.nome }} {{ product.tamanho }}{{
+                    product.unidade }}
+                </span>
+
+                <div class="product-quantity-actions">
+                    <button type="button" (click)="increaseQuantity(product)">➕</button>
+                    <button type="button" (click)="decreaseQuantity(product)">➖</button>
+                    <button type="button">✖️</button>
+                </div>
             </div>
             }
         </div>
