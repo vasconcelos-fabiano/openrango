@@ -19,7 +19,8 @@
         @if (tipoSelecionado === 'delivery') {
         <div class="cliente">
             <label for="cliente">Cliente:</label>
-            <input type="text" id="cliente" placeholder="Busca: nome, telefone ou CPF" [value]="customerName"
+            <input type="text" id="cliente" required minlength="3" #customerNameInput
+                placeholder="Busca: nome, telefone ou CPF" [value]="customerName"
                 (input)="customerName = $any($event.target).value" [disabled]="!orderStarted">
         </div>
         <div class="busca-produtos">
@@ -40,25 +41,51 @@
         <div class="selected-products">
             @for (product of selectedProducts; track $index) {
             <div class="selected-product">
-                <span>
-                    <strong>{{ product.quantidade.toString().padStart(3, '0') }}</strong> {{ product.nome }} {{ product.tamanho }}{{
-                    product.unidade }}
+                <span [class.item-nome-alerta]="productInRemovalAlert === product">
+                    <strong>{{ product.quantidade.toString().padStart(3, '0') }}</strong> {{ product.nome }} {{
+                    product.tamanho }}{{ product.unidade }}
                 </span>
-
                 <div class="product-quantity-actions">
                     <button type="button" (click)="increaseQuantity(product)">➕</button>
-                    <button type="button" (click)="decreaseQuantity(product)">➖</button>
-                    <button type="button">✖️</button>
+                    <button type="button" (pointerdown)="startProductRemoval(product)"
+                        (pointerup)="finishProductRemoval(product)" (pointerleave)="cancelProductRemoval()"
+                        (contextmenu)="$event.preventDefault()">
+                        ➖
+                    </button>
+                    <button type="button" (click)="openQuantityDialog(product)">✖️</button>
                 </div>
             </div>
             }
         </div>
 
+        @if (productInQuantityDialog) {
+        <div class="modal-qtd">
+            <div class="modal-qtd-box">
+                <div class="linha-qtd">
+                    <label for="input-modal-qtd">Qtd:</label>
+                    <input type="text" id="input-modal-qtd" #inputModalQtd inputmode="numeric" maxlength="3"
+                        (input)="sanitizeQuantityInput($event)">
+                </div>
+
+                <div class="linha-botoes-modal">
+                    <span></span>
+
+                    <div class="modal-qtd-botoes">
+                        <button type="button" id="btn-modal-qtd-ok" (click)="confirmQuantity(inputModalQtd)">
+                            OK
+                        </button>
+                        <button type="button" (click)="closeQuantityDialog()">Sair</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+
         <div class="taxa-entrega">
             <label for="taxa">Taxa de entrega:</label>
             <span>R$</span>
-            <input type="number" id="taxa" placeholder="0,00" [value]="deliveryFee ?? ''"
-                (input)="deliveryFee = $any($event.target).valueAsNumber" [disabled]="!orderStarted">
+            <input type="text" id="taxa" inputmode="numeric" placeholder="0,00"
+                (input)="formatMoneyInput($event, 'deliveryFee')" [disabled]="!orderStarted">
         </div>
         <div class="desconto">
             <label for="desconto">Desconto:</label>
@@ -68,8 +95,8 @@
                 <input type="radio" name="kind" value="percent" [checked]="discountType === 'percent'"
                     (change)="discountType = 'percent'" [disabled]="!orderStarted">%
             </div>
-            <input type="number" id="desconto" placeholder="0,00" [value]="discountValue ?? ''"
-                (input)="discountValue = $any($event.target).valueAsNumber" [disabled]="!orderStarted">
+            <input type="text" id="desconto" inputmode="numeric" placeholder="0,00"
+                (input)="formatMoneyInput($event, 'discountValue')" [disabled]="!orderStarted">
         </div>
         <div class="motivo-desconto">
             <label for="motivo-desconto">Motivo:</label>
@@ -77,6 +104,10 @@
                 (input)="reasonDiscount = $any($event.target).value" placeholder="Qual o motivo do desconto?"
                 [disabled]="!orderStarted">
         </div>
+
+        <button type="button" class="generate-note-button" (click)="generateOrderNote(customerNameInput)">
+            Gerar notinha
+        </button>
         }
         @if (tipoSelecionado === 'salao') {
         <app-not-implemented></app-not-implemented>
@@ -139,7 +170,7 @@
 
             <div class="notinha">
                 @if (orderNote) {
-                {{ orderNote }}
+                <pre>{{ orderNote }}</pre>
                 } @else {
                 Nota de pedido para simples conferência
                 }
