@@ -60,24 +60,25 @@
 
         @if (productInQuantityDialog) {
         <div class="modal-qtd">
-            <div class="modal-qtd-box">
+            <form class="modal-qtd-box" (submit)="$event.preventDefault(); confirmQuantity(inputModalQtd)">
                 <div class="linha-qtd">
                     <label for="input-modal-qtd">Qtd:</label>
                     <input type="text" id="input-modal-qtd" #inputModalQtd inputmode="numeric" maxlength="3"
                         (input)="sanitizeQuantityInput($event)">
+
                 </div>
 
                 <div class="linha-botoes-modal">
                     <span></span>
 
                     <div class="modal-qtd-botoes">
-                        <button type="button" id="btn-modal-qtd-ok" (click)="confirmQuantity(inputModalQtd)">
+                        <button type="submit" id="btn-modal-qtd-ok">
                             OK
                         </button>
                         <button type="button" (click)="closeQuantityDialog()">Sair</button>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
         }
 
@@ -105,7 +106,8 @@
                 [disabled]="!orderStarted">
         </div>
 
-        <button type="button" class="generate-note-button" (click)="generateOrderNote(customerNameInput)">
+        <button type="button" class="generate-note-button" (click)="generateOrderNote(customerNameInput)"
+            [disabled]="!orderStarted">
             Gerar notinha
         </button>
         }
@@ -177,7 +179,10 @@
             </div>
 
             <div class="actions-orders-bottom">
-                <button class="btn-copiar" type="button" [disabled]="!orderStarted">Copiar</button>
+                <button class="btn-copiar" type="button" (click)="copyOrderNote()"
+                    [disabled]="!orderStarted || !orderNote">
+                    Copiar
+                </button>
                 <button class="btn-clear-order" type="button" (click)="clearOrderNote()" [disabled]="!orderStarted">
                     Limpar
                 </button>

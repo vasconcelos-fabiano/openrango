@@ -34,6 +34,8 @@ export class Pedidos {
   removalTimer: any;
   removedByHold = false;
   nextOrderNumber: number | null = null;
+  serverDateTime: string | null = null;
+  readonly maxProductQuantity = 999;
 
   constructor(
     private http: HttpClient,
@@ -137,13 +139,18 @@ export class Pedidos {
 
     const quantity = Number(input.value);
 
-    if (!Number.isInteger(quantity) || quantity < 1 || quantity > 999) {
+    if (
+      !Number.isInteger(quantity) ||
+      quantity < 1 ||
+      quantity > this.maxProductQuantity
+    ) {
       return;
     }
 
     this.productInQuantityDialog.quantidade = quantity;
     this.closeQuantityDialog();
   }
+
 
   formatOrderItems() {
     const IND = "  ";
@@ -199,7 +206,11 @@ export class Pedidos {
   }
 
   formatOrderDateTime() {
-    const now = new Date();
+    if (!this.serverDateTime) {
+      return '';
+    }
+
+    const now = new Date(this.serverDateTime);
 
     const weekdays = [
       'Domingo',
@@ -219,6 +230,7 @@ export class Pedidos {
   }
 
   generateOrderNote(customerInput: HTMLInputElement) {
+
     if (this.customerName.trim().length < 3) {
       customerInput.setCustomValidity(
         'Informe o nome do cliente com pelo menos 3 caracteres.'
@@ -232,55 +244,74 @@ export class Pedidos {
       alert('Adicione pelo menos um item ao pedido antes de gerar a notinha.');
       return;
     }
-    const SEP = "------------------------------";
-    const items = this.formatOrderItems();
-    const totals = this.calculateOrderTotals();
 
-    const noteLines = [
-      SEP,
-      `Pedido #${String(this.nextOrderNumber ?? 0).padStart(4, '0')}`,
-      `de ${this.customerName}`,
-      this.formatOrderDateTime(),
-      SEP,
-      `\r`,
-      ...items
-    ];
+    this.http
+      .get<{
+        datetime: string;
+        source: 'NIST' | 'NPL' | 'local';
+        warning?: string;
+      }>('http://192.168.18.9:8000/horario')
+      .subscribe(response => {
+        this.serverDateTime = response.datetime;
 
-    if (totals.discount > 0) {
-      noteLines.push(
-        "",
-        `🎁 Desconto: R$${this.formatCurrency(totals.discount)}`
-      );
+        if (response.source === 'local') {
+          alert(
+            response.warning ??
+            'Não foi possível obter a data e a hora dos servidores remotos. Verifique a data e a hora deste computador antes de continuar.'
+          );
+        }
 
-      if (this.reasonDiscount) {
-        noteLines.push(` << ${this.reasonDiscount} >>`);
-      }
-    }
+        const SEP = "------------------------------";
+        const items = this.formatOrderItems();
+        const totals = this.calculateOrderTotals();
 
-    if (totals.deliveryFee > 0) {
-      noteLines.push(
-        "",
-        `Taxa de entrega R$${this.formatCurrency(totals.deliveryFee)}`
-      );
-    }
+        const noteLines = [
+          SEP,
+          `Pedido #${String(this.nextOrderNumber ?? 0).padStart(4, '0')}`,
+          `de ${this.customerName}`,
+          this.formatOrderDateTime(),
+          SEP,
+          `\r`,
+          ...items
+        ];
 
-    noteLines.push(
-      "",
-      SEP,
-      "",
-      `*TOTAL DO PEDIDO: R$${this.formatCurrency(totals.total)}*`,
-      "",
-      SEP,
-      "",
-      "*Formas de Pagamento:*",
-      "💳 *No cartão:* Crédito e Débito",
-      "💵 *Em cash:* Dinheiro e PIX",
-      "🎫 *VA/VR:* Caju, Flash, iFood e Pluxee",
-      "",
-      "Como você prefere pagar?"
-    );
+        if (totals.discount > 0) {
+          noteLines.push(
+            "",
+            `🎁 Desconto: R$${this.formatCurrency(totals.discount)}`
+          );
 
-    this.orderNote = noteLines.join('\n');
+          if (this.reasonDiscount) {
+            noteLines.push(` << ${this.reasonDiscount} >>`);
+          }
+        }
+
+        if (totals.deliveryFee > 0) {
+          noteLines.push(
+            "",
+            `Taxa de entrega R$${this.formatCurrency(totals.deliveryFee)}`
+          );
+        }
+
+        noteLines.push(
+          "",
+          SEP,
+          "",
+          `*TOTAL DO PEDIDO: R$${this.formatCurrency(totals.total)}*`,
+          "",
+          SEP,
+          "",
+          "*Formas de Pagamento:*",
+          "💳 *No cartão:* Crédito e Débito",
+          "💵 *Em cash:* Dinheiro e PIX",
+          "🎫 *VA/VR:* Caju, Flash, iFood e Pluxee",
+          "",
+          "Como você prefere pagar?"
+        );
+
+        this.orderNote = noteLines.join('\n');
+        this.cdr.markForCheck();
+      });
   }
 
   loadProducts() {
@@ -304,9 +335,11 @@ export class Pedidos {
     const existingProduct = this.selectedProducts.find(
       item => item.id === product.id
     );
-
     if (existingProduct) {
-      existingProduct.quantidade++;
+      existingProduct.quantidade = Math.min(
+        existingProduct.quantidade + 1,
+        this.maxProductQuantity
+      );
     } else {
       this.selectedProducts.push({
         ...product,
@@ -319,7 +352,10 @@ export class Pedidos {
   }
 
   increaseQuantity(product: any) {
-    product.quantidade++;
+    product.quantidade = Math.min(
+      product.quantidade + 1,
+      this.maxProductQuantity
+    );
   }
 
   decreaseQuantity(product: any) {
@@ -360,11 +396,22 @@ export class Pedidos {
     this.orderNote = '';
   }
 
+  copyOrderNote() {
+    if (!this.orderNote) {
+      return;
+    }
+
+    navigator.clipboard.writeText(this.orderNote).then(() => {
+      alert('Notinha copiada para a área de transferência!');
+    });
+  }
+
   confirmCancelOrder() {
     this.orderStarted = false;
     this.showCancelDialog = false;
     this.customerName = '';
     this.productSearch = '';
+    this.selectedProducts = [];
     this.deliveryFee = null;
     this.reasonDiscount = '';
     this.paymentType = '';
@@ -377,5 +424,6 @@ export class Pedidos {
     this.deliveryType = 'immediate';
     this.tipoSelecionado = 'delivery';
     this.orderNote = '';
+    this.serverDateTime = null;
   }
 }
