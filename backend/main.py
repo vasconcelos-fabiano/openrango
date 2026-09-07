@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import pymysql
+from datetime import datetime
+from zoneinfo import ZoneInfo
+import ntplib
 
 def get_connection():
     return pymysql.connect(
@@ -61,3 +64,43 @@ def proximo_numero_pedido():
 @app.get("/")
 def root():
     return {"message": "OpenRango API"}
+
+@app.get("/horario")
+def horario():
+    servidores = [
+        ("time.nist.gov", "NIST"),
+        ("ntp1.npl.co.uk", "NPL"),
+    ]
+
+    client = ntplib.NTPClient()
+
+    for servidor, fonte in servidores:
+        try:
+            response = client.request(servidor, version=3, timeout=5)
+
+            now = datetime.fromtimestamp(
+                response.tx_time,
+                tz=ZoneInfo("America/Fortaleza"),
+            )
+
+            return {
+                "datetime": now.isoformat(),
+                "source": fonte,
+            }
+        except Exception:
+            continue
+
+    now = datetime.now(ZoneInfo("America/Fortaleza"))
+
+    return {
+        "datetime": now.isoformat(),
+        "source": "local",
+        "warning": (
+            "Não foi possível obter a data e a hora dos nossos dois servidores remotos. "
+            "O OpenRango está utilizando a data e a hora deste computador. "
+            "É muito importante verificar se a data e a hora deste dispositivo estão corretas antes de continuar. "
+            "É altamente recomendável corrigir a configuração de data e hora deste dispositivo, se necessário. "
+            "Se o problema persistir, entre em contato com o suporte do OpenRango: "
+            "suport-or@fabianovasconcelos.com"
+        ),
+    }
