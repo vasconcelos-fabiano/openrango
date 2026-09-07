@@ -32,6 +32,10 @@ export const routes: Routes = [
         component: NotImplemented,
       },
       {
+        path: 'financeiro',
+        component: NotImplemented,
+      },
+      {
         path: 'rotulos',
         component: NotImplemented,
       },

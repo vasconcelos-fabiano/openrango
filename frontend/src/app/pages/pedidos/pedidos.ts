@@ -299,15 +299,34 @@ export class Pedidos {
           "",
           `*TOTAL DO PEDIDO: R$${this.formatCurrency(totals.total)}*`,
           "",
-          SEP,
-          "",
-          "*Formas de Pagamento:*",
-          "💳 *No cartão:* Crédito e Débito",
-          "💵 *Em cash:* Dinheiro e PIX",
-          "🎫 *VA/VR:* Caju, Flash, iFood e Pluxee",
-          "",
-          "Como você prefere pagar?"
+          SEP
         );
+
+        if (this.paymentType) {
+          const paymentLabels: Record<string, string> = {
+            pix: 'PIX',
+            credito: 'Crédito',
+            debito: 'Débito',
+            cash: 'Cash',
+            voucher: 'Voucher',
+            'vr-va': 'VR/VA'
+          };
+
+          noteLines.push(
+            "",
+            `*Forma de Pagamento:* ${paymentLabels[this.paymentType]}`
+          );
+        } else {
+          noteLines.push(
+            "",
+            "*Formas de Pagamento:*",
+            "💳 *No cartão:* Crédito e Débito",
+            "💵 *Em cash:* Dinheiro e PIX",
+            "🎫 *VA/VR:* Caju, Flash, iFood e Pluxee",
+            "",
+            "Como você prefere pagar?"
+          );
+        }
 
         this.orderNote = noteLines.join('\n');
         this.cdr.markForCheck();
