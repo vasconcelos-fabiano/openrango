@@ -123,7 +123,7 @@
 
             <select id="forma-pagamento" [value]="paymentType" (change)="paymentType = $any($event.target).value"
                 [disabled]="!orderStarted">
-                <option value="" disabled></option>
+                <option value="">Ainda não definida...</option>
                 <option value="pix">PIX</option>
                 <option value="credito">Crédito</option>
                 <option value="debito">Débito</option>
@@ -194,7 +194,7 @@
             <label for="cell-wp">WhatsApp cliente:</label>
             <input type="text" id="cell-wp" placeholder="DDD+Telefone" [value]="customerPhone"
                 (input)="customerPhone = $any($event.target).value" [disabled]="!orderStarted">
-            <button class="btn-send-whatsapp" type="button" [disabled]="!orderStarted">
+            <button class="btn-send-whatsapp" type="button" (click)="sendOrderToWhatsApp()" [disabled]="!orderStarted">
                 <i class="fa-brands fa-whatsapp"></i> Enviar
             </button>
         </div>

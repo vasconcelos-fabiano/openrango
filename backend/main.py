@@ -4,6 +4,56 @@ import pymysql
 from datetime import datetime
 from zoneinfo import ZoneInfo
 import ntplib
+import json
+from urllib.request import urlopen
+
+PIX_CONFIG_URL = "https://openrango.fabianovasconcelos.com/config/pix.json"
+
+def get_pix_config():
+    with urlopen(PIX_CONFIG_URL, timeout=5) as response:
+        return json.load(response)
+    
+def pix_field(field_id: str, value: str) -> str:
+        return f"{field_id}{len(value):02d}{value}"
+
+def pix_crc16(payload: str) -> str:
+    crc = 0xFFFF
+
+    for byte in payload.encode("utf-8"):
+        crc ^= byte << 8
+
+        for _ in range(8):
+            if crc & 0x8000:
+                crc = ((crc << 1) ^ 0x1021) & 0xFFFF
+            else:
+                crc = (crc << 1) & 0xFFFF
+
+    return f"{crc:04X}"
+
+def generate_pix_payload(amount: float) -> str:
+    config = get_pix_config()
+
+    merchant_account = (
+        pix_field("00", "br.gov.bcb.pix")
+        + pix_field("01", config["pix_key"])
+    )
+
+    additional_data = pix_field("05", "***")
+
+    payload = (
+        pix_field("00", "01")
+        + pix_field("26", merchant_account)
+        + pix_field("52", "0000")
+        + pix_field("53", "986")
+        + pix_field("54", f"{amount:.2f}")
+        + pix_field("58", "BR")
+        + pix_field("59", config["merchant_name"])
+        + pix_field("60", config["merchant_city"])
+        + pix_field("62", additional_data)
+        + "6304"
+    )
+
+    return payload + pix_crc16(payload)
 
 def get_connection():
     return pymysql.connect(
@@ -64,6 +114,17 @@ def proximo_numero_pedido():
 @app.get("/")
 def root():
     return {"message": "OpenRango API"}
+
+@app.get("/config/pix")
+def pix_config():
+    return get_pix_config()
+
+@app.get("/pix")
+def pix(amount: float):
+    return {
+        "amount": amount,
+        "payload": generate_pix_payload(amount),
+    }
 
 @app.get("/horario")
 def horario():
