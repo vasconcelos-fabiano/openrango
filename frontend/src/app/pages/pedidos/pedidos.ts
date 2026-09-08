@@ -25,6 +25,7 @@ export class Pedidos {
   discountValue: number | null = null;
   deliveryType = 'immediate';
   orderNote = '';
+  pixCopyPaste = '';
   products: any[] = [];
   filteredProducts: any[] = [];
   selectedProducts: any[] = [];
@@ -316,6 +317,23 @@ export class Pedidos {
             "",
             `*Forma de Pagamento:* ${paymentLabels[this.paymentType]}`
           );
+          if (this.paymentType === 'pix') {
+            this.http
+              .get<{ amount: number; payload: string }>(
+                `http://192.168.18.9:8000/pix?amount=${totals.total.toFixed(2)}`
+              )
+              .subscribe(response => {
+                this.pixCopyPaste = response.payload;
+
+                noteLines.push(
+                  "",
+                  "👇 PIX copia e cola 👇"
+                );
+
+                this.orderNote = noteLines.join('\n');
+                this.cdr.markForCheck();
+              });
+          }
         } else {
           noteLines.push(
             "",
@@ -328,8 +346,10 @@ export class Pedidos {
           );
         }
 
-        this.orderNote = noteLines.join('\n');
-        this.cdr.markForCheck();
+        if (this.paymentType !== 'pix') {
+          this.orderNote = noteLines.join('\n');
+          this.cdr.markForCheck();
+        }
       });
   }
 
@@ -413,6 +433,39 @@ export class Pedidos {
 
   clearOrderNote() {
     this.orderNote = '';
+  }
+  sendOrderToWhatsApp() {
+    const clipboardText =
+      this.paymentType === 'pix' && this.pixCopyPaste
+        ? this.pixCopyPaste
+        : '\u200B';
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(clipboardText);
+    } else {
+      const textarea = document.createElement('textarea');
+      textarea.value = clipboardText;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+    }
+
+    const phone = this.customerPhone.replace(/\D/g, '');
+    const message = encodeURIComponent(this.orderNote);
+    const url = `https://wa.me/55${phone}?text=${message}`;
+
+    if (/Android/i.test(navigator.userAgent)) {
+      const businessUrl =
+        `intent://send?phone=55${phone}&text=${message}` +
+        `#Intent;scheme=whatsapp;package=com.whatsapp.w4b;end`;
+
+      window.location.href = businessUrl;
+    } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      window.location.href = url;
+    } else {
+      window.open(url, '_blank');
+    }
   }
 
   copyOrderNote() {

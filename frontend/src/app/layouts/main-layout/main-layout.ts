@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { ChangeDetectorRef, Component } from "@angular/core";
 import { RouterOutlet, RouterLink } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 
@@ -11,7 +11,10 @@ import { HttpClient } from "@angular/common/http";
 export class MainLayout {
   sidebarAberta = false;
   currentDateTime = '';
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef
+  ) {
     this.loadServerDateTime();
   }
   loadServerDateTime() {
@@ -28,7 +31,9 @@ export class MainLayout {
       this.currentDateTime =
         this.currentDateTime.charAt(0).toUpperCase() +
         this.currentDateTime.slice(1);
-      console.log('SIDEBAR:', this.currentDateTime);
+        this.currentDateTime = this.currentDateTime.replace('.,', ',').replace(/,\s(?=\d{2}:\d{2}$)/, ' ');
+
+      this.cdr.markForCheck();
 
     });
   }
