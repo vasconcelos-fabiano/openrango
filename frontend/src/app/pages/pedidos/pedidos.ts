@@ -1,7 +1,8 @@
 import { ChangeDetectorRef, Component } from "@angular/core";
 import { NotImplemented } from "../not-implemented/not-implemented";
 import { HttpClient } from '@angular/common/http';
-const API_URL = `${window.location.protocol}//${window.location.hostname}:8000`;
+import { environment } from '../../../environments/environment';
+const API_URL = environment.apiUrl;
 
 @Component({
   selector: "app-pedidos",
