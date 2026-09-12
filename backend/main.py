@@ -77,6 +77,7 @@ app.add_middleware(
         "http://localhost:4200",
         "http://192.168.18.9:4200",
         "http://100.71.125.85:4200",
+        "https://openrango.fabianovasconcelos.com",
     ],
     allow_credentials=True,
     allow_methods=["*"],

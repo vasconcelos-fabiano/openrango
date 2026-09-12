@@ -1,7 +1,8 @@
 import { ChangeDetectorRef, Component } from "@angular/core";
 import { RouterOutlet, RouterLink } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
-const API_URL = `${window.location.protocol}//${window.location.hostname}:8000`;
+import { environment } from '../../../environments/environment';
+const API_URL = environment.apiUrl;
 
 @Component({
   selector: "app-main-layout",
