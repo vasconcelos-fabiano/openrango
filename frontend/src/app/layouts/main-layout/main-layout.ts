@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component } from "@angular/core";
 import { RouterOutlet, RouterLink } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
+const API_URL = `${window.location.protocol}//${window.location.hostname}:8000`;
 
 @Component({
   selector: "app-main-layout",
@@ -18,7 +19,7 @@ export class MainLayout {
     this.loadServerDateTime();
   }
   loadServerDateTime() {
-    this.http.get<any>('http://192.168.18.9:8000/horario').subscribe((response) => {
+    this.http.get<any>(`${API_URL}/horario`).subscribe((response) => {
       this.currentDateTime = new Date(response.datetime).toLocaleString('pt-BR', {
         weekday: 'short',
         day: '2-digit',

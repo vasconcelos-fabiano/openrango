@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component } from "@angular/core";
 import { NotImplemented } from "../not-implemented/not-implemented";
 import { HttpClient } from '@angular/common/http';
+const API_URL = `${window.location.protocol}//${window.location.hostname}:8000`;
 
 @Component({
   selector: "app-pedidos",
@@ -251,7 +252,7 @@ export class Pedidos {
         datetime: string;
         source: 'NIST' | 'NPL' | 'local';
         warning?: string;
-      }>('http://192.168.18.9:8000/horario')
+      }>(`${API_URL}/horario`)
       .subscribe(response => {
         this.serverDateTime = response.datetime;
 
@@ -320,7 +321,7 @@ export class Pedidos {
           if (this.paymentType === 'pix') {
             this.http
               .get<{ amount: number; payload: string }>(
-                `http://192.168.18.9:8000/pix?amount=${totals.total.toFixed(2)}`
+                `${API_URL}/pix?amount=${totals.total.toFixed(2)}`
               )
               .subscribe(response => {
                 this.pixCopyPaste = response.payload;
@@ -354,7 +355,7 @@ export class Pedidos {
   }
 
   loadProducts() {
-    this.http.get('http://192.168.18.9:8000/produtos').subscribe(products => {
+    this.http.get(`${API_URL}/produtos`).subscribe(products => {
       this.products = products as any[];
       this.filteredProducts = this.products;
     });
@@ -363,7 +364,7 @@ export class Pedidos {
   loadNextOrderNumber() {
     this.http
       .get<{ proximo_numero: number }>(
-        'http://192.168.18.9:8000/pedidos/proximo-numero'
+        `${API_URL}/pedidos/proximo-numero`
       )
       .subscribe(response => {
         this.nextOrderNumber = response.proximo_numero;
