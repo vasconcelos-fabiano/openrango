@@ -9,12 +9,15 @@ from urllib.request import urlopen
 
 PIX_CONFIG_URL = "https://openrango.fabianovasconcelos.com/config/pix.json"
 
+
 def get_pix_config():
     with urlopen(PIX_CONFIG_URL, timeout=5) as response:
         return json.load(response)
-    
+
+
 def pix_field(field_id: str, value: str) -> str:
-        return f"{field_id}{len(value):02d}{value}"
+    return f"{field_id}{len(value):02d}{value}"
+
 
 def pix_crc16(payload: str) -> str:
     crc = 0xFFFF
@@ -30,12 +33,12 @@ def pix_crc16(payload: str) -> str:
 
     return f"{crc:04X}"
 
+
 def generate_pix_payload(amount: float) -> str:
     config = get_pix_config()
 
-    merchant_account = (
-        pix_field("00", "br.gov.bcb.pix")
-        + pix_field("01", config["pix_key"])
+    merchant_account = pix_field("00", "br.gov.bcb.pix") + pix_field(
+        "01", config["pix_key"]
     )
 
     additional_data = pix_field("05", "***")
@@ -55,6 +58,7 @@ def generate_pix_payload(amount: float) -> str:
 
     return payload + pix_crc16(payload)
 
+
 def get_connection():
     return pymysql.connect(
         host="mysql",
@@ -64,18 +68,21 @@ def get_connection():
         cursorclass=pymysql.cursors.DictCursor,
     )
 
+
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-    "http://localhost:4200",
-    "http://192.168.18.9:4200",
-],
+        "http://localhost:4200",
+        "http://192.168.18.9:4200",
+        "http://100.71.125.85:4200",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 @app.get("/produtos")
 def produtos():
@@ -111,13 +118,16 @@ def proximo_numero_pedido():
     finally:
         connection.close()
 
+
 @app.get("/")
 def root():
     return {"message": "OpenRango API"}
 
+
 @app.get("/config/pix")
 def pix_config():
     return get_pix_config()
+
 
 @app.get("/pix")
 def pix(amount: float):
@@ -125,6 +135,7 @@ def pix(amount: float):
         "amount": amount,
         "payload": generate_pix_payload(amount),
     }
+
 
 @app.get("/horario")
 def horario():
