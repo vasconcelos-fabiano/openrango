@@ -47,6 +47,70 @@ h1 {
     font-size: 15px;
 }
 
+.estoque-tabela {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 13px;
+    table-layout: fixed;
+}
+
+.estoque-tabela th,
+.estoque-tabela td {
+    padding: 2px 3px;
+    border: none;
+    text-align: center;
+}
+
+.estoque-tabela th {
+    font-weight: 700;
+    border-bottom: 2px solid #888;
+}
+
+.estoque-tabela tbody tr:nth-child(even) {
+    background: rgba(242, 199, 159, 0.40);
+}
+
+.estoque-tabela th:first-child,
+.estoque-tabela td:first-child {
+    width: 100%;
+    text-align: left;
+}
+
+.estoque-tabela th:nth-child(2),
+.estoque-tabela td:nth-child(2) {
+    width: 38px;
+}
+
+.estoque-tabela th:nth-child(3),
+.estoque-tabela td:nth-child(3) {
+    width: 25px;
+}
+
+.estoque-tabela th:nth-child(4),
+.estoque-tabela td:nth-child(4) {
+    width: 32px;
+}
+
+.estoque-tabela th:nth-child(5),
+.estoque-tabela td:nth-child(5) {
+    width: 20px;
+}
+
+.estoque-tabela th:not(:first-child),
+.estoque-tabela td:not(:first-child) {
+    white-space: nowrap;
+}
+
+.titulo-monitor {
+    padding: 4px 7px;
+    margin: -7px -7px 10px;
+    background: #d9edf7;
+    border-radius: 7px 7px 0 0;
+    font-weight: 700;
+    border-bottom: 1px solid #b6d5e3;
+}
+
 @media (max-width: 440px) {
     .estoque-container {
         flex-direction: column;
