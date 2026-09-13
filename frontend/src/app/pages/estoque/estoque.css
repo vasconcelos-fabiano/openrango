@@ -41,10 +41,11 @@ h1 {
 .acoes-estoque {
     display: flex;
     gap: 5px;
+    flex-wrap: wrap;
 }
 
 .acoes-estoque button {
-    flex: 1;
+    flex: 0 0 calc((100% - 10px) / 3);
     min-width: 0;
     padding: 8px;
     border: none;
@@ -67,6 +68,21 @@ h1 {
 .acoes-estoque button:nth-child(3) {
     background: #e8d49a;
     color: #594817;
+}
+
+.acoes-estoque button:nth-child(4) {
+    background: #d96b6b;
+    color: white;
+}
+
+.acoes-estoque button:nth-child(5) {
+    background: #c8d2dc;
+    color: #263746;
+}
+
+.acoes-estoque button:nth-child(6) {
+    background: #2878ff;
+    color: white;
 }
 
 .linha-dados-produto {
@@ -138,11 +154,6 @@ h1 {
     margin-top: 15px;
     font-size: 13px;
     table-layout: fixed;
-}
-
-.acoes-estoque button:nth-child(4) {
-    background: #2878ff;
-    color: white;
 }
 
 .estoque-tabela th,
