@@ -1,0 +1,61 @@
+:host {
+    display: block;
+    max-width: 774px;
+}
+
+h1,
+.estoque-container {
+    width: 750px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 22px;
+}
+
+.estoque-container {
+    display: flex;
+    gap: 10px;
+    font-size: 17px;
+}
+
+.estoque-esquerda,
+.estoque-direita {
+    display: flex;
+    flex: 0 0 370px;
+    width: 370px;
+    box-sizing: border-box;
+    flex-direction: column;
+    padding: 7px;
+    border: 1px solid #999;
+    border-radius: 8px;
+}
+
+.acoes-estoque {
+    display: flex;
+    gap: 5px;
+}
+
+.acoes-estoque button {
+    flex: 1;
+    min-width: 0;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+@media (max-width: 440px) {
+    .estoque-container {
+        flex-direction: column;
+        width: 345px;
+    }
+
+    .estoque-esquerda,
+    .estoque-direita {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+}

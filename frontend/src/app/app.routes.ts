@@ -3,6 +3,7 @@ import { Login } from './pages/login/login';
 import { MainLayout } from './layouts/main-layout/main-layout';
 import { NotImplemented } from './pages/not-implemented/not-implemented';
 import { Pedidos } from './pages/pedidos/pedidos';
+import { Estoque } from './pages/estoque/estoque';
 
 export const routes: Routes = [
   {
@@ -25,7 +26,7 @@ export const routes: Routes = [
       },
       {
         path: 'estoque',
-        component: NotImplemented,
+        component: Estoque,
       },
       {
         path: 'clientes',
