@@ -7,6 +7,46 @@
             <button type="button">Baixa</button>
             <button type="button">Ajuste</button>
         </div>
+
+        <div class="insercao-produto">
+            <div class="campo-produto">
+                <input type="text" id="descricao" placeholder="Digite a descrição do item">
+            </div>
+        </div>
+        <div class="linha-dados-produto">
+            <div class="data-group">
+                <label>Volume:</label>
+                <input type="text" maxlength="4" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 5)">
+            </div>
+
+            <div class="data-group">
+                <label>Unid.:</label>
+                <input type="text" maxlength="2"
+                    oninput="this.value = this.value.toLowerCase().replace(/[^a-z]/g, '').slice(0, 2)">
+            </div>
+
+            <div class="data-group">
+                <label>Quant. Inicial:</label>
+                <input type="text" maxlength="3" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 4)">
+            </div>
+        </div>
+        <div class="product-identification">
+            <div class="data-group">
+                <label>Cód.:</label>
+                <input type="text" maxlength="4" readonly>
+            </div>
+
+            <div class="data-group">
+                <label>GTIN:</label>
+                <input type="text" maxlength="14" [disabled]="!gtinEnabled" placeholder="00763528000104"
+                    oninput="this.value = this.value.replace(/\D/g, '').slice(0, 14)">
+                <input type="checkbox" [checked]="gtinEnabled" (change)="gtinEnabled = !gtinEnabled">
+            </div>
+        </div>
+        <div class="insert-actions">
+            <button type="button">Confirmar</button>
+            <button type="button">Limpar</button>
+        </div>
     </div>
 
     <div class="estoque-direita">

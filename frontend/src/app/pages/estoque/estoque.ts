@@ -6,4 +6,6 @@ import { Component } from "@angular/core";
   templateUrl: "./estoque.html",
   styleUrl: "./estoque.css",
 })
-export class Estoque {}
+export class Estoque {
+  gtinEnabled = false;
+}

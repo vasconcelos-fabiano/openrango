@@ -19,6 +19,13 @@ h1 {
     font-size: 17px;
 }
 
+.insercao-produto input {
+    padding: 7px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+}
+
 .estoque-esquerda,
 .estoque-direita {
     display: flex;
@@ -45,6 +52,84 @@ h1 {
     cursor: pointer;
     font-weight: 600;
     font-size: 15px;
+}
+
+.acoes-estoque button:nth-child(1) {
+    background: #a9d5b2;
+    color: #1f4528;
+}
+
+.acoes-estoque button:nth-child(2) {
+    background: #e5a6a6;
+    color: #5c2020;
+}
+
+.acoes-estoque button:nth-child(3) {
+    background: #e8d49a;
+    color: #594817;
+}
+
+.linha-dados-produto {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 7px;
+    white-space: nowrap;
+    font-size: 15px;
+}
+
+.linha-dados-produto input {
+    box-sizing: border-box;
+    height: 28px;
+    padding: 7px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background: #f7fafa;
+    width: 100%;
+}
+
+.data-group {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.data-group:nth-child(1) input {
+    width: 50px;
+}
+
+.data-group:nth-child(2) input {
+    width: 35px;
+}
+
+.data-group:nth-child(3) input {
+    width: 40px;
+}
+
+.insert-actions {
+    display: flex;
+    gap: 5px;
+    margin-top: 12px;
+}
+
+.insert-actions button {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.insert-actions button:nth-child(1) {
+    background: #a9d5b2;
+    color: #1f4528;
+}
+
+.insert-actions button:nth-child(2) {
+    background: #d6d6d6;
+    color: #333;
 }
 
 .estoque-tabela {
@@ -109,6 +194,55 @@ h1 {
     border-radius: 7px 7px 0 0;
     font-weight: 700;
     border-bottom: 1px solid #b6d5e3;
+}
+
+.insercao-produto {
+    margin-top: 15px;
+}
+
+.campo-produto {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.campo-produto input {
+    flex: 1;
+    min-width: 0;
+    padding: 7px;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.product-identification {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 7px;
+    font-size: 15px;
+}
+
+.product-identification .data-group {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.product-identification input[type="text"] {
+    height: 28px;
+    padding: 7px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.product-identification .data-group:first-child input {
+    width: 50px;
+    background: #ddd;
+}
+
+.product-identification .data-group:nth-child(2) input[type="text"] {
+    width: 145px;
 }
 
 @media (max-width: 440px) {
