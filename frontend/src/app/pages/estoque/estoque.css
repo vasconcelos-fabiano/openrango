@@ -245,6 +245,10 @@ h1 {
     width: 145px;
 }
 
+.product-identification input[type="checkbox"] {
+    margin-right: -8px;
+}
+
 @media (max-width: 440px) {
     .estoque-container {
         flex-direction: column;

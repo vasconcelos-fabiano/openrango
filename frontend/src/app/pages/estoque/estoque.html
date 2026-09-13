@@ -37,10 +37,10 @@
             </div>
 
             <div class="data-group">
-                <label>GTIN:</label>
-                <input type="text" maxlength="14" [disabled]="!gtinEnabled" placeholder="00763528000104"
-                    oninput="this.value = this.value.replace(/\D/g, '').slice(0, 14)">
                 <input type="checkbox" [checked]="gtinEnabled" (change)="gtinEnabled = !gtinEnabled">
+                <label>GTIN:</label>
+                <input type="text" maxlength="14" [disabled]="!gtinEnabled" placeholder="🏷️ Código de Barras"
+                    oninput="this.value = this.value.replace(/\D/g, '').slice(0, 14)">
             </div>
         </div>
         <div class="insert-actions">
