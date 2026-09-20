@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import pymysql
 from datetime import datetime
@@ -84,6 +85,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+class ProductCreate(BaseModel):
+    name: str
+    volume: int
+    unit: str
+    initial_quantity: int
+    gtin: str | None = None
 
 @app.get("/produtos")
 def produtos():
@@ -98,6 +105,55 @@ def produtos():
             ORDER BY nome, tamanho
             """)
             return cursor.fetchall()
+    finally:
+        connection.close()
+
+@app.post("/produtos")
+def create_product(product: ProductCreate):
+    connection = get_connection()
+
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                INSERT INTO produtos (
+                    nome,
+                    tamanho,
+                    unidade,
+                    gtin,
+                    preco_venda
+                )
+                VALUES (%s, %s, %s, %s, %s)
+            """, (
+                product.name,
+                product.volume,
+                product.unit,
+                product.gtin,
+                0,
+            ))
+
+            product_id = cursor.lastrowid
+
+            cursor.execute("""
+                INSERT INTO inventory (
+                    product_id,
+                    quantity
+                )
+                VALUES (%s, %s)
+            """, (
+                product_id,
+                product.initial_quantity,
+            ))
+
+        connection.commit()
+
+        return {
+            "id": product_id
+        }
+
+    except Exception:
+        connection.rollback()
+        raise
+
     finally:
         connection.close()
 
