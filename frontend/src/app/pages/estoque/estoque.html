@@ -12,46 +12,54 @@
         </div>
 
         <div class="acoes-estoque2">
-            
+
         </div>
 
         <div class="insercao-produto">
             <div class="campo-produto">
-                <input type="text" id="descricao" placeholder="Digite a descrição do item">
+                <input type="text" id="descricao" [(ngModel)]="name" placeholder="Digite a descrição do item">
             </div>
         </div>
         <div class="linha-dados-produto">
             <div class="data-group">
                 <label>Volume:</label>
-                <input type="text" maxlength="4" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 5)">
+                <input type="text" [(ngModel)]="volume" maxlength="4"
+                    oninput="this.value = this.value.replace(/\D/g, '').slice(0, 5)">
             </div>
 
             <div class="data-group">
                 <label>Unid.:</label>
-                <input type="text" maxlength="2"
+                <input type="text" maxlength="2" [(ngModel)]="unit"
                     oninput="this.value = this.value.toLowerCase().replace(/[^a-z]/g, '').slice(0, 2)">
             </div>
 
             <div class="data-group">
                 <label>Qtd. Inicial:</label>
-                <input type="text" maxlength="3" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 4)">
+                <input type="text" [(ngModel)]="initialQuantity" maxlength="3"
+                    oninput="this.value = this.value.replace(/\D/g, '').slice(0, 4)">
             </div>
         </div>
         <div class="product-identification">
             <div class="data-group">
-                <label>Cód.:</label>
-                <input type="text" maxlength="4" readonly>
+                <label>R$</label>
+                <input class="campo-preco" type="text" [(ngModel)]="price" maxlength="8">
             </div>
 
             <div class="data-group">
-                <input type="checkbox" [checked]="gtinEnabled" (change)="gtinEnabled = !gtinEnabled">
-                <label>GTIN:</label>
-                <input type="text" maxlength="14" [disabled]="!gtinEnabled" placeholder="🏷️ Código de Barras"
+                <label>Cód.:</label>
+                <input class="campo-codigo" type="text" maxlength="4" readonly placeholder="0000">
+            </div>
+
+            <div class="data-group grupo-gtin">
+               <input type="checkbox" [checked]="gtinEnabled" (change)="gtinEnabled = !gtinEnabled">
+               <label>GTIN:</label>
+                <input class="campo-gtin" type="text" [(ngModel)]="gtin" maxlength="14" [disabled]="!gtinEnabled"
+                    placeholder="🏷️ Código de Barras"
                     oninput="this.value = this.value.replace(/\D/g, '').slice(0, 14)">
             </div>
         </div>
         <div class="insert-actions">
-            <button type="button">Confirmar</button>
+            <button type="button" (click)="createProduct()">Confirmar</button>
             <button type="button">Limpar</button>
         </div>
     </div>

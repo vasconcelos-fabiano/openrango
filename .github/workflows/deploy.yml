@@ -45,11 +45,11 @@ jobs:
       - name: Deploy via rsync over SSH
         run: |
           # Deploy institutional site to /
-          rsync -avz --delete --exclude='dev/' -e "ssh -p ${{ secrets.SSH_PORT }}" \
+          rsync -avz --exclude='dev/' -e "ssh -p ${{ secrets.SSH_PORT }}" \
             institutional/dist/institutional/browser/ \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/u835982839/public_html/openrango/
 
           # Deploy ERP to /dev/
-          rsync -avz --delete -e "ssh -p ${{ secrets.SSH_PORT }}" \
+          rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" \
             frontend/dist/frontend/browser/ \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/u835982839/public_html/openrango/dev/

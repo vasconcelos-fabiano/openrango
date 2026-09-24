@@ -233,7 +233,8 @@ h1 {
 .product-identification {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 8px;
     margin-top: 7px;
     font-size: 15px;
 }
@@ -252,17 +253,28 @@ h1 {
     box-sizing: border-box;
 }
 
-.product-identification .data-group:first-child input {
-    width: 50px;
-    background: #ddd;
-}
-
-.product-identification .data-group:nth-child(2) input[type="text"] {
-    width: 145px;
-}
-
 .product-identification input[type="checkbox"] {
-    margin-right: -8px;
+    margin: 0;
+    width: 13px;
+    height: 13px;
+}
+
+.grupo-gtin {
+    gap: 3px !important;
+}
+
+.campo-preco {
+    width: 53px !important;
+}
+
+.campo-codigo {
+    width: 48px !important;
+    background: #ddd !important;
+
+}
+
+.campo-gtin {
+    width: 117px !important;
 }
 
 @media (max-width: 440px) {

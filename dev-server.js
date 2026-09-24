@@ -12,10 +12,13 @@ app.use(
   createProxyMiddleware({
     changeOrigin: true,
     ws: true,
+    pathRewrite: { '^/api': '' },
     router: (req) =>
-      req.url.startsWith('/dev')
-        ? 'http://localhost:4202'
-        : 'http://localhost:4201',
+  req.url.startsWith('/api')
+    ? 'http://localhost:8000'
+    : req.url.startsWith('/dev')
+      ? 'http://localhost:4202'
+      : 'http://localhost:4201',
   })
 );
 
