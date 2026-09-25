@@ -7,6 +7,7 @@ h1,
 .estoque-container {
     width: 750px;
     margin: 0 auto;
+    align-items: stretch;
 }
 
 h1 {
@@ -36,6 +37,11 @@ h1 {
     padding: 7px;
     border: 1px solid #999;
     border-radius: 8px;
+}
+
+.estoque-direita {
+    height: 258px;
+    overflow: hidden;
 }
 
 .acoes-estoque {
@@ -277,6 +283,18 @@ h1 {
     width: 117px !important;
 }
 
+.monitor-terminal {
+    font-family: monospace;
+    font-size: 14px;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.monitor-event {
+    margin-bottom: 8px;
+}
+
 @media (max-width: 440px) {
     .estoque-container {
         flex-direction: column;
@@ -287,5 +305,7 @@ h1 {
     .estoque-direita {
         flex: 0 0 auto;
         width: 100%;
+        min-height: 0;
+        overflow: hidden;
     }
 }

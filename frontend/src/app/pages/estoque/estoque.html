@@ -11,10 +11,6 @@
             <button type="button">Inventário</button>
         </div>
 
-        <div class="acoes-estoque2">
-
-        </div>
-
         <div class="insercao-produto">
             <div class="campo-produto">
                 <input type="text" id="descricao" [(ngModel)]="name" placeholder="Digite a descrição do item">
@@ -22,7 +18,7 @@
         </div>
         <div class="linha-dados-produto">
             <div class="data-group">
-                <label>Volume:</label>
+                <label>Tam./Vol.:</label>
                 <input type="text" [(ngModel)]="volume" maxlength="4"
                     oninput="this.value = this.value.replace(/\D/g, '').slice(0, 5)">
             </div>
@@ -66,11 +62,14 @@
             <span>Monitor</span>
         </div>
 
-        <div class="monitor-terminal" *ngIf="monitorMessage">
-            {{ monitorMessage }}
+        <div class="monitor-terminal" *ngIf="monitorEvents.length">
+            <div class="monitor-event" *ngFor="let event of monitorEvents">
+                [{{ event.time }}] {{ event.prefix }} {{ event.before }}<strong>{{ event.bold }}</strong>{{ event.after
+                }}
+            </div>
         </div>
 
-        <table class="estoque-tabela" *ngIf="!monitorMessage">
+        <table class="estoque-tabela" *ngIf="monitorEvents.length === 0">
             <thead>
                 <tr>
                     <th>Descrição</th>

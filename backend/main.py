@@ -1,3 +1,5 @@
+from multiprocessing import connection
+
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
@@ -156,7 +158,13 @@ def create_product(product: ProductCreate):
 
         connection.commit()
 
-        return {"id": product_id}
+        now, fonte = get_server_datetime()
+
+        return {
+        "id": product_id,
+        "datetime": now.isoformat(),
+        "source": fonte,
+    }
 
     except Exception:
         connection.rollback()
@@ -202,8 +210,7 @@ def pix(amount: float):
     }
 
 
-@app.get("/horario")
-def horario():
+def get_server_datetime():
     servidores = [
         ("time.nist.gov", "NIST"),
         ("ntp1.npl.co.uk", "NPL"),
@@ -220,24 +227,30 @@ def horario():
                 tz=ZoneInfo("America/Fortaleza"),
             )
 
-            return {
-                "datetime": now.isoformat(),
-                "source": fonte,
-            }
+            return now, fonte
         except Exception:
             continue
 
-    now = datetime.now(ZoneInfo("America/Fortaleza"))
+    return datetime.now(ZoneInfo("America/Fortaleza")), "local"
 
-    return {
+
+@app.get("/horario")
+def horario():
+    now, fonte = get_server_datetime()
+
+    result = {
         "datetime": now.isoformat(),
-        "source": "local",
-        "warning": (
+        "source": fonte,
+    }
+
+    if fonte == "local":
+        result["warning"] = (
             "Não foi possível obter a data e a hora dos nossos dois servidores remotos. "
             "O OpenRango está utilizando a data e a hora deste computador. "
             "É muito importante verificar se a data e a hora deste dispositivo estão corretas antes de continuar. "
             "É altamente recomendável corrigir a configuração de data e hora deste dispositivo, se necessário. "
             "Se o problema persistir, entre em contato com o suporte do OpenRango: "
             "suport-or@fabianovasconcelos.com"
-        ),
-    }
+        )
+
+    return result
