@@ -85,12 +85,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 class ProductCreate(BaseModel):
     name: str
     volume: int
     unit: str
     initial_quantity: int
+    price: int
     gtin: str | None = None
+
 
 @app.get("/produtos")
 def produtos():
@@ -108,13 +111,15 @@ def produtos():
     finally:
         connection.close()
 
+
 @app.post("/produtos")
 def create_product(product: ProductCreate):
     connection = get_connection()
 
     try:
         with connection.cursor() as cursor:
-            cursor.execute("""
+            cursor.execute(
+                """
                 INSERT INTO produtos (
                     nome,
                     tamanho,
@@ -123,32 +128,35 @@ def create_product(product: ProductCreate):
                     preco_venda
                 )
                 VALUES (%s, %s, %s, %s, %s)
-            """, (
-                product.name,
-                product.volume,
-                product.unit,
-                product.gtin,
-                0,
-            ))
+            """,
+                (
+                    product.name,
+                    product.volume,
+                    product.unit,
+                    product.gtin,
+                    product.price,
+                ),
+            )
 
             product_id = cursor.lastrowid
 
-            cursor.execute("""
+            cursor.execute(
+                """
                 INSERT INTO inventory (
                     product_id,
                     quantity
                 )
                 VALUES (%s, %s)
-            """, (
-                product_id,
-                product.initial_quantity,
-            ))
+            """,
+                (
+                    product_id,
+                    product.initial_quantity,
+                ),
+            )
 
         connection.commit()
 
-        return {
-            "id": product_id
-        }
+        return {"id": product_id}
 
     except Exception:
         connection.rollback()

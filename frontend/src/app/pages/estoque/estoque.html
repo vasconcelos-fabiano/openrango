@@ -42,17 +42,13 @@
         <div class="product-identification">
             <div class="data-group">
                 <label>R$</label>
-                <input class="campo-preco" type="text" [(ngModel)]="price" maxlength="8">
-            </div>
-
-            <div class="data-group">
-                <label>Cód.:</label>
-                <input class="campo-codigo" type="text" maxlength="4" readonly placeholder="0000">
+                <input class="campo-preco" type="text" [(ngModel)]="price" maxlength="10"
+                    oninput="this.value = (Number(this.value.replace(/\D/g, '')) / 100).toFixed(2).replace('.', ',')">
             </div>
 
             <div class="data-group grupo-gtin">
-               <input type="checkbox" [checked]="gtinEnabled" (change)="gtinEnabled = !gtinEnabled">
-               <label>GTIN:</label>
+                <input type="checkbox" [checked]="gtinEnabled" (change)="gtinEnabled = !gtinEnabled">
+                <label>GTIN:</label>
                 <input class="campo-gtin" type="text" [(ngModel)]="gtin" maxlength="14" [disabled]="!gtinEnabled"
                     placeholder="🏷️ Código de Barras"
                     oninput="this.value = this.value.replace(/\D/g, '').slice(0, 14)">
@@ -70,7 +66,11 @@
             <span>Monitor</span>
         </div>
 
-        <table class="estoque-tabela">
+        <div class="monitor-terminal" *ngIf="monitorMessage">
+            {{ monitorMessage }}
+        </div>
+
+        <table class="estoque-tabela" *ngIf="!monitorMessage">
             <thead>
                 <tr>
                     <th>Descrição</th>
