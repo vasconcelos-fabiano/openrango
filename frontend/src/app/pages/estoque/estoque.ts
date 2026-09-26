@@ -82,6 +82,15 @@ export class Estoque {
   }
 
   createProduct() {
+    if (!this.category) {
+      this.addMonitorEvent(
+        "=> ❌",
+        "É preciso selecionar o ",
+        "Tipo",
+        " do produto."
+      );
+      return;
+    }
     if (Number(this.price.replace(/\D/g, "")) <= 0) {
       this.addMonitorEvent(
         "=> ❌",
