@@ -9,11 +9,18 @@ from zoneinfo import ZoneInfo
 import ntplib
 import json
 from urllib.request import urlopen
+from pathlib import Path
 
 PIX_CONFIG_URL = "https://openrango.fabianovasconcelos.com/config/pix.json"
 
 
 def get_pix_config():
+    local_pix_config = Path("/app/pix.json")
+
+    if local_pix_config.exists():
+        with local_pix_config.open("r", encoding="utf-8") as file:
+            return json.load(file)
+
     with urlopen(PIX_CONFIG_URL, timeout=5) as response:
         return json.load(response)
 
