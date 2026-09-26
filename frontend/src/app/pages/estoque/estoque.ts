@@ -2,6 +2,9 @@ import { ChangeDetectorRef, Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
+import { environment } from "../../../environments/environment";
+
+const API_URL = environment.apiUrl;
 
 @Component({
   selector: "app-estoque",
@@ -17,7 +20,7 @@ export class Estoque {
     bold?: string,
     after?: string
   ) {
-    this.http.get<any>("/api/horario").subscribe((response) => {
+    this.http.get<any>(`${API_URL}/horario`).subscribe((response) => {
       const time = new Date(response.datetime).toLocaleTimeString("pt-BR", {
         hour: "2-digit",
         minute: "2-digit",
@@ -89,7 +92,7 @@ export class Estoque {
       gtin: this.gtinEnabled && this.gtin ? this.gtin : null,
     };
 
-    this.http.post("/api/produtos", product).subscribe({
+    this.http.post(`${API_URL}/produtos`, product).subscribe({
       next: (response: any) => {
         const time = new Date(response.datetime).toLocaleTimeString("pt-BR", {
           hour: "2-digit",
