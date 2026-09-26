@@ -53,8 +53,3 @@ jobs:
           rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" \
             frontend/dist/frontend/browser/ \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/u835982839/public_html/openrango/dev/
-
-          # Verify deployed ERP files
-          ssh -p ${{ secrets.SSH_PORT }} \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
-            "ls -lah /home/u835982839/public_html/openrango/dev/"
