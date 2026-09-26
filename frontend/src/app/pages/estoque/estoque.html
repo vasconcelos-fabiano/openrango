@@ -78,8 +78,8 @@
 
         <div class="monitor-terminal" *ngIf="monitorEvents.length">
             <div class="monitor-event" *ngFor="let event of monitorEvents" [class.monitor-highlight]="event.highlight">
-                [{{ event.time }}] {{ event.prefix }} {{ event.before }}<strong>{{ event.bold }}</strong>{{ event.after
-                }}
+                {{ event.prefix }} <strong>[{{ event.time }}]:</strong> {{ event.before }}<strong>{{ event.bold
+                    }}</strong>{{ event.after }}
             </div>
         </div>
 

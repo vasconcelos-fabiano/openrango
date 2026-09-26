@@ -84,7 +84,7 @@ export class Estoque {
   createProduct() {
     if (!this.category) {
       this.addMonitorEvent(
-        "=> ❌",
+        "❌",
         "É preciso selecionar o ",
         "Tipo",
         " do produto."
@@ -93,7 +93,7 @@ export class Estoque {
     }
     if (Number(this.price.replace(/\D/g, "")) <= 0) {
       this.addMonitorEvent(
-        "=> ❌",
+        "❌",
         "É preciso definir um valor ",
         "em R$",
         " maior que zero para o produto."
@@ -103,7 +103,7 @@ export class Estoque {
 
     if (Number(this.volume) <= 0) {
       this.addMonitorEvent(
-        "=> ❌",
+        "❌",
         "É preciso definir um valor maior que zero para o ",
         "Volume",
         "."
@@ -113,7 +113,7 @@ export class Estoque {
 
     if (!this.unit.trim()) {
       this.addMonitorEvent(
-        "=> ❌",
+        "❌",
         "Não é possível deixar o campo ",
         '"Unidade"',
         " em branco."
@@ -123,7 +123,7 @@ export class Estoque {
 
     if (!this.name.trim()) {
       this.addMonitorEvent(
-        "=> ❌",
+        "❌",
         "Não é possível deixar o ",
         "Produto",
         " em branco."
@@ -134,7 +134,7 @@ export class Estoque {
       this.initialQuantity = "0";
 
       this.addMonitorEvent(
-        "=> ⚠️",
+        "⚠️",
         "Warning: não foi definido um estoque inicial. Foi atribuído 0 (zero) automaticamente para ",
         this.name,
         "."
@@ -152,17 +152,12 @@ export class Estoque {
 
     this.http.post(`${API_URL}/produtos`, product).subscribe({
       next: (response: any) => {
-        const time = new Date(response.datetime).toLocaleTimeString("pt-BR", {
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-        });
 
         this.addMonitorEvent(
-          "=> ✅",
+          "✅",
           "Produto ",
           `"${this.name}"`,
-          " cadastrado com sucesso!"
+          ` (cód. ${String(response.code).padStart(4, "0")}), cadastrado com sucesso!`
         );
         this.clearProductForm();
         this.cdr.detectChanges();
@@ -170,7 +165,7 @@ export class Estoque {
 
       error: () => {
         this.addMonitorEvent(
-          "=> ❌",
+          "❌",
           "Ocorreu um erro ao cadastrar esse produto. Para maiores esclarecimentos, contate o suporte."
         );
       },

@@ -1,5 +1,3 @@
-from multiprocessing import connection
-
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
@@ -130,15 +128,27 @@ def create_product(product: ProductCreate):
         with connection.cursor() as cursor:
             cursor.execute(
                 """
-                INSERT INTO produtos (
-                    nome,
-                    tamanho,
-                    unidade,
-                    gtin,
-                    categoria,
-                    preco_venda
-                )
-                VALUES (%s, %s, %s, %s, %s, %s)
+               INSERT INTO produtos (
+    codigo,
+    nome,
+    tamanho,
+    unidade,
+    gtin,
+    categoria,
+    preco_venda
+)
+VALUES (
+    (
+    SELECT COALESCE(MIN(p1.codigo + 1), 1)
+    FROM produtos p1
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM produtos p2
+        WHERE p2.codigo = p1.codigo + 1
+    )
+),
+    %s, %s, %s, %s, %s, %s
+)
             """,
                 (
                     product.name,
@@ -165,16 +175,23 @@ def create_product(product: ProductCreate):
                     product.initial_quantity,
                 ),
             )
+            
+            cursor.execute(
+                "SELECT codigo FROM produtos WHERE id = %s",
+                (product_id,),
+            )
+            product_code = cursor.fetchone()["codigo"]
 
         connection.commit()
 
         now, fonte = get_server_datetime()
 
         return {
-        "id": product_id,
-        "datetime": now.isoformat(),
-        "source": fonte,
-    }
+            "id": product_id,
+            "code": product_code,
+            "datetime": now.isoformat(),
+            "source": fonte,
+        }
 
     except Exception:
         connection.rollback()
