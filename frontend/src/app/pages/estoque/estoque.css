@@ -295,6 +295,34 @@ h1 {
     margin-bottom: 8px;
 }
 
+.monitor-highlight {
+    animation: monitor-alert 2s ease-in-out;
+}
+
+@keyframes monitor-alert {
+    0% {
+        background: white;
+    }
+
+    35% {
+        background: #e57373;
+        color: #ffd600;
+    }
+
+    55% {
+        background: #b71c1c;
+        color: #ffd600;
+    }
+
+    100% {
+        background: white;
+    }
+}
+
+.campo-tipo select {
+    width: 65px;
+}
+
 @media (max-width: 440px) {
     .estoque-container {
         flex-direction: column;

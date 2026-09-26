@@ -49,10 +49,24 @@
                     placeholder="🏷️ Código de Barras"
                     oninput="this.value = this.value.replace(/\D/g, '').slice(0, 14)">
             </div>
+            <div class="campo-tipo">
+                <select [(ngModel)]="category">
+                    <option value="">[Tipo]</option>
+                    <option value="s">Saborita</option>
+                    <option value="d">Sobremesa</option>
+                    <option value="b">Bebida</option>
+                    <option value="r">Drink</option>
+                    <option value="c">Vícios</option>
+                    <option value="q">P. Quente</option>
+                    <option value="p">Petisco</option>
+                    <option value="g">Salgado</option>
+                    <option value="z">Bazar</option>
+                </select>
+            </div>
         </div>
         <div class="insert-actions">
             <button type="button" (click)="createProduct()">Confirmar</button>
-            <button type="button">Limpar</button>
+            <button type="button" (click)="clearProductForm()">Limpar</button>
         </div>
     </div>
 
@@ -63,7 +77,7 @@
         </div>
 
         <div class="monitor-terminal" *ngIf="monitorEvents.length">
-            <div class="monitor-event" *ngFor="let event of monitorEvents">
+            <div class="monitor-event" *ngFor="let event of monitorEvents" [class.monitor-highlight]="event.highlight">
                 [{{ event.time }}] {{ event.prefix }} {{ event.before }}<strong>{{ event.bold }}</strong>{{ event.after
                 }}
             </div>

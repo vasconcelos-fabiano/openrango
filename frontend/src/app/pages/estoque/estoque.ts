@@ -70,6 +70,17 @@ export class Estoque {
     });
   }
 
+  clearProductForm() {
+    this.name = "";
+    this.volume = "";
+    this.unit = "";
+    this.initialQuantity = "";
+    this.price = "";
+    this.category = "";
+    this.gtin = "";
+    this.gtinEnabled = false;
+  }
+
   createProduct() {
     if (Number(this.price.replace(/\D/g, "")) <= 0) {
       this.addMonitorEvent(
@@ -121,6 +132,7 @@ export class Estoque {
       );
     }
     const product = {
+      category: this.category,
       name: this.name,
       volume: Number(this.volume),
       unit: this.unit,
@@ -143,7 +155,7 @@ export class Estoque {
           `"${this.name}"`,
           " cadastrado com sucesso!"
         );
-
+        this.clearProductForm();
         this.cdr.detectChanges();
       },
 
@@ -168,6 +180,7 @@ export class Estoque {
   initialQuantity = "";
   gtin = "";
   price = "";
+  category = "";
   monitorEvents: {
     time: string;
     prefix: string;

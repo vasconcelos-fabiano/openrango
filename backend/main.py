@@ -97,6 +97,7 @@ app.add_middleware(
 
 class ProductCreate(BaseModel):
     name: str
+    category: str
     volume: int
     unit: str
     initial_quantity: int
@@ -134,15 +135,17 @@ def create_product(product: ProductCreate):
                     tamanho,
                     unidade,
                     gtin,
+                    categoria,
                     preco_venda
                 )
-                VALUES (%s, %s, %s, %s, %s)
+                VALUES (%s, %s, %s, %s, %s, %s)
             """,
                 (
                     product.name,
                     product.volume,
                     product.unit,
                     product.gtin,
+                    product.category,
                     product.price,
                 ),
             )
