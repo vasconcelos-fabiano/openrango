@@ -14,11 +14,15 @@ const API_URL = environment.apiUrl;
 })
 export class Estoque {
 
+  private monitorQueue: any[] = [];
+  private monitorQueueTimer?: ReturnType<typeof setTimeout>;
+
   addMonitorEvent(
     prefix: string,
     before: string,
     bold?: string,
-    after?: string
+    after?: string,
+    group = false
   ) {
     this.http.get<any>(`${API_URL}/horario`).subscribe((response) => {
       const time = new Date(response.datetime).toLocaleTimeString("pt-BR", {
@@ -27,12 +31,45 @@ export class Estoque {
         second: "2-digit",
       });
 
-      this.monitorEvents.unshift({ time, prefix, before, bold, after });
-      setTimeout(() => {
+      const event = {
+        time,
+        prefix,
+        before,
+        bold,
+        after,
+        highlight: true,
+        createdAt: Date.now(),
+      };
+
+      if (!group) {
+        this.monitorEvents.unshift(event);
         this.cdr.detectChanges();
-      });
+
+        setTimeout(() => {
+          event.highlight = false;
+          this.cdr.detectChanges();
+        }, 2000);
+
+        return;
+      }
+      this.monitorQueue.push(event);
+
+      clearTimeout(this.monitorQueueTimer);
+
+      this.monitorQueueTimer = setTimeout(() => {
+        this.monitorEvents.unshift(...this.monitorQueue.reverse());
+        this.monitorQueue = [];
+        this.cdr.detectChanges();
+
+        setTimeout(() => {
+          this.monitorEvents.forEach(item => item.highlight = false);
+          this.cdr.detectChanges();
+        }, 2000);
+      }, 1000);
+
     });
   }
+
   createProduct() {
     if (Number(this.price.replace(/\D/g, "")) <= 0) {
       this.addMonitorEvent(
@@ -100,13 +137,12 @@ export class Estoque {
           second: "2-digit",
         });
 
-        this.monitorEvents.unshift({
-          time,
-          prefix: "=> ✅",
-          before: "Produto ",
-          bold: `"${this.name}"`,
-          after: " cadastrado com sucesso!",
-        });
+        this.addMonitorEvent(
+          "=> ✅",
+          "Produto ",
+          `"${this.name}"`,
+          " cadastrado com sucesso!"
+        );
 
         this.cdr.detectChanges();
       },
@@ -138,5 +174,6 @@ export class Estoque {
     before: string;
     bold?: string;
     after?: string;
+    highlight?: boolean;
   }[] = [];
 }
