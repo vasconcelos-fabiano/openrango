@@ -321,6 +321,12 @@ h1 {
 
 .campo-tipo select {
     width: 65px;
+    height: 28px;
+    padding: 0 7px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background: #f7fafa;
 }
 
 @media (max-width: 440px) {
@@ -336,4 +342,7 @@ h1 {
         min-height: 0;
         overflow: hidden;
     }
+}
+.campo-tipo select {
+    height: 28px;
 }

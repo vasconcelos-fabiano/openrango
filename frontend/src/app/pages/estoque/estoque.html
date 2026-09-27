@@ -41,14 +41,6 @@
                 <input class="campo-preco" type="text" [(ngModel)]="price" maxlength="10"
                     oninput="this.value = (Number(this.value.replace(/\D/g, '')) / 100).toFixed(2).replace('.', ',')">
             </div>
-
-            <div class="data-group grupo-gtin">
-                <input type="checkbox" [checked]="gtinEnabled" (change)="gtinEnabled = !gtinEnabled">
-                <label>GTIN:</label>
-                <input class="campo-gtin" type="text" [(ngModel)]="gtin" maxlength="14" [disabled]="!gtinEnabled"
-                    placeholder="🏷️ Código de Barras"
-                    oninput="this.value = this.value.replace(/\D/g, '').slice(0, 14)">
-            </div>
             <div class="campo-tipo">
                 <select [(ngModel)]="category">
                     <option value="">[Tipo]</option>
@@ -62,6 +54,13 @@
                     <option value="g">Salgado</option>
                     <option value="z">Bazar</option>
                 </select>
+            </div>
+            <div class="data-group grupo-gtin">
+                <input type="checkbox" [checked]="gtinEnabled" (change)="gtinEnabled = !gtinEnabled">
+                <label>GTIN:</label>
+                <input class="campo-gtin" type="text" [(ngModel)]="gtin" maxlength="14" [disabled]="!gtinEnabled"
+                    placeholder="🏷️ Código de Barras"
+                    oninput="this.value = this.value.replace(/\D/g, '').slice(0, 14)">
             </div>
         </div>
         <div class="insert-actions">
