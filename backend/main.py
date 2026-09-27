@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+import os
 import pymysql
 from datetime import datetime
 from zoneinfo import ZoneInfo
@@ -69,10 +70,11 @@ def generate_pix_payload(amount: float) -> str:
 
 def get_connection():
     return pymysql.connect(
-        host="mysql",
-        user="openrango",
-        password="openrango_dev",
-        database="openrango",
+        host=os.environ["DB_HOST"],
+        port=int(os.environ["DB_PORT"]),
+        user=os.environ["DB_USER"],
+        password=os.environ["DB_PASSWORD"],
+        database=os.environ["DB_NAME"],
         cursorclass=pymysql.cursors.DictCursor,
     )
 

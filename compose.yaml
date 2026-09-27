@@ -1,27 +1,18 @@
 services:
-  mysql:
-    image: mysql:8.4
-    container_name: openrango-mysql
-    environment:
-      MYSQL_DATABASE: openrango
-      MYSQL_USER: openrango
-      MYSQL_PASSWORD: openrango_dev
-      MYSQL_ROOT_PASSWORD: openrango_root
-    ports:
-      - "3306:3306"
-    volumes:
-      - openrango_mysql_data:/var/lib/mysql
-
   backend:
     build: ./backend
     container_name: openrango-backend
     working_dir: /app
+    environment:
+      DB_HOST: host.docker.internal
+      DB_PORT: 3307
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
     ports:
       - "8000:8000"
     volumes:
       - ./backend:/app
-    depends_on:
-      - mysql
 
   frontend:
     build: .

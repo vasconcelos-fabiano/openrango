@@ -130,15 +130,10 @@ export class Estoque {
       );
       return;
     }
-    if (!this.initialQuantity.trim()) {
-      this.initialQuantity = "0";
+    const withoutInitialStock = !this.initialQuantity.trim();
 
-      this.addMonitorEvent(
-        "⚠️",
-        "Warning: não foi definido um estoque inicial. Foi atribuído 0 (zero) automaticamente para ",
-        this.name,
-        "."
-      );
+    if (withoutInitialStock) {
+      this.initialQuantity = "0";
     }
     const product = {
       category: this.category,
@@ -152,12 +147,22 @@ export class Estoque {
 
     this.http.post(`${API_URL}/produtos`, product).subscribe({
       next: (response: any) => {
+        if (withoutInitialStock) {
+          this.addMonitorEvent(
+            "⚠️",
+            "Warning: não foi definido um estoque inicial. Foi atribuído 0 (zero) automaticamente para ",
+            this.name,
+            ".",
+            true
+          );
+        }
 
         this.addMonitorEvent(
           "✅",
           "Produto ",
           `"${this.name}"`,
-          ` (cód. ${String(response.code).padStart(4, "0")}), cadastrado com sucesso!`
+          ` (cód. ${String(response.code).padStart(4, "0")}), cadastrado com sucesso!`,
+          true
         );
         this.clearProductForm();
         this.cdr.detectChanges();
